@@ -1,0 +1,102 @@
+{
+  "opportunities": [
+    {
+      "id": "1",
+      "category": "api",
+      "name": "Claude MCP (Model Context Protocol)",
+      "description": "Anthropic's open protocol for connecting AI assistants to external tools and data sources. Enables Claude to interact with databases, files, APIs.",
+      "leverage": "Build MCP server integrations for niche SaaS tools. Package as $29-99/mo connectors for industries like real estate, legal, healthcare. Low code, high margin.",
+      "source": "https://modelcontextprotocol.io",
+      "sourceName": "Anthropic",
+      "dateFound": "2026-04-10",
+      "relevance": 5,
+      "tags": ["saas", "b2b", "connectors", "automation"]
+    },
+    {
+      "id": "2",
+      "category": "framework",
+      "name": "AutoGen / CrewAI Multi-Agent Frameworks",
+      "description": "Frameworks for orchestrating multiple AI agents to collaborate on complex tasks. Enables agent teams with specialized roles.",
+      "leverage": "Pre-built agent team templates for common workflows: research + writing + editing, sales lead gen + enrichment + outreach. Package as templates for SMBs.",
+      "source": "https://microsoft.github.io/autogen",
+      "sourceName": "Microsoft",
+      "dateFound": "2026-04-10",
+      "relevance": 4,
+      "tags": ["saas", "templates", "automation", "multi-agent"]
+    },
+    {
+      "id": "3",
+      "category": "automation",
+      "name": "AI Agent Workflow Automation",
+      "description": "Combining LLM reasoning with task execution. Agents that can browse web, write code, use tools, and complete multi-step workflows autonomously.",
+      "leverage": "Build vertical-specific automation agents: 'AI employee' for accountants, lawyers, agencies. Monthly retainer model $500-2000/employee.",
+      "source": "https://arxiv.org/abs/2308.03688",
+      "sourceName": "AutoGPT",
+      "dateFound": "2026-04-10",
+      "relevance": 5,
+      "tags": ["saas", "agents", "retainer", "vertical"]
+    },
+    {
+      "id": "4",
+      "category": "integration",
+      "name": "OpenAI / Gemini Vision APIs",
+      "description": "Multimodal APIs that can analyze images, videos, documents at scale. Extract structured data from visual content with 95%+ accuracy.",
+      "leverage": "Document processing SaaS: invoices, contracts, medical forms → structured data. Charge per-document or monthly volume tiers.",
+      "source": "https://platform.openai.com",
+      "sourceName": "OpenAI",
+      "dateFound": "2026-04-10",
+      "relevance": 4,
+      "tags": ["saas", "document-processing", "b2b", "vision"]
+    },
+    {
+      "id": "5",
+      "category": "monetization",
+      "name": "AI Course & Prompt Marketplace",
+      "description": "Curated collections of proven AI prompts and workflows for specific professions. Growing demand from non-technical users wanting 'AI in a box'.",
+      "leverage": "Build prompt packs for high-income niches: executives, sales, therapists, financial advisors. $47-197 per pack, affiliate revenue from AI tool referrals.",
+      "source": "https://www.producthunt.com",
+      "sourceName": "Product Hunt",
+      "dateFound": "2026-04-10",
+      "relevance": 3,
+      "tags": ["digital-product", "affiliate", "education"]
+    },
+    {
+      "id": "6",
+      "category": "api",
+      "name": "ElevenLabs / Hare AI Voice APIs",
+      "description": "Production-quality voice synthesis with emotional range, cloning, and real-time streaming. Quality rivaling human voice actors.",
+      "leverage": "Voice-over SaaS for content creators, educators, gaming. Auto-generate course narrations, YouTube dubs, audiobook narration. Subscription model.",
+      "source": "https://elevenlabs.io",
+      "sourceName": "ElevenLabs",
+      "dateFound": "2026-04-10",
+      "relevance": 4,
+      "tags": ["saas", "content", "audio", "subscription"]
+    },
+    {
+      "id": "7",
+      "category": "framework",
+      "name": "LangChain / LlamaIndex RAG",
+      "description": "Retrieval-Augmented Generation frameworks for building knowledge bases on private data. Connect documents, databases, APIs to LLMs.",
+      "leverage": "Enterprise knowledge base tool: company documents + AI = internal chat assistant. $299-999/mo per company seat. High-touch enterprise sales.",
+      "source": "https://python.langchain.com",
+      "sourceName": "LangChain",
+      "dateFound": "2026-04-10",
+      "relevance": 4,
+      "tags": ["saas", "enterprise", "knowledge-base", "b2b"]
+    },
+    {
+      "id": "8",
+      "category": "automation",
+      "name": "AI Meeting Intelligence",
+      "description": "Real-time transcription, summarization, action item extraction from meetings. Integrates with Zoom, Teams, Meet.",
+      "leverage": "Vertical meeting tools: therapist notes, lawyer case summaries, recruiter interview scoring. Per-seat monthly subscription.",
+      "source": "https://fireship.io",
+      "sourceName": "Fireship",
+      "dateFound": "2026-04-10",
+      "relevance": 3,
+      "tags": ["saas", "vertical", "subscription", "transcription"]
+    }
+  ],
+  "lastUpdated": "2026-04-10T00:00:00Z",
+  "nextScan": "2026-04-11T00:00:00Z"
+}
