@@ -143,6 +143,16 @@
         "category": "ai",
         "status": "active",
         "notes": "Main coding & API plan"
+      },
+      {
+        "id": "contabo",
+        "name": "Contabo VPS",
+        "amount": 6,
+        "currency": "EUR",
+        "day": 23,
+        "category": "hosting",
+        "status": "active",
+        "notes": "VPS server"
       }
     ],
     "oneTime": []
