@@ -132,21 +132,6 @@
     "revenueTarget": 10000,
     "revenueCurrent": 0
   },
-  "expenses": {
-    "monthly": [
-      {
-        "id": "minimax",
-        "name": "MiniMax Coding Plan",
-        "amount": 10,
-        "currency": "AUD",
-        "day": 16,
-        "category": "ai",
-        "status": "active",
-        "notes": "Main coding & API plan"
-      }
-    ],
-    "oneTime": []
-  },
   "opportunities": [
     {
       "id": "1",
@@ -158,12 +143,7 @@
       "sourceName": "Anthropic",
       "dateFound": "2026-04-10",
       "relevance": 5,
-      "tags": [
-        "saas",
-        "b2b",
-        "connectors",
-        "automation"
-      ]
+      "tags": ["saas", "b2b", "connectors", "automation"]
     },
     {
       "id": "2",
@@ -175,12 +155,7 @@
       "sourceName": "Microsoft",
       "dateFound": "2026-04-10",
       "relevance": 4,
-      "tags": [
-        "saas",
-        "templates",
-        "automation",
-        "multi-agent"
-      ]
+      "tags": ["saas", "templates", "automation", "multi-agent"]
     },
     {
       "id": "3",
@@ -192,29 +167,19 @@
       "sourceName": "AutoGPT",
       "dateFound": "2026-04-10",
       "relevance": 5,
-      "tags": [
-        "saas",
-        "agents",
-        "retainer",
-        "vertical"
-      ]
+      "tags": ["saas", "agents", "retainer", "vertical"]
     },
     {
       "id": "4",
       "category": "integration",
       "name": "OpenAI / Gemini Vision APIs",
       "description": "Multimodal APIs that can analyze images, videos, documents at scale. Extract structured data from visual content with 95%+ accuracy.",
-      "leverage": "Document processing SaaS: invoices, contracts, medical forms \u2192 structured data. Charge per-document or monthly volume tiers.",
+      "leverage": "Document processing SaaS: invoices, contracts, medical forms → structured data. Charge per-document or monthly volume tiers.",
       "source": "https://platform.openai.com",
       "sourceName": "OpenAI",
       "dateFound": "2026-04-10",
       "relevance": 4,
-      "tags": [
-        "saas",
-        "document-processing",
-        "b2b",
-        "vision"
-      ]
+      "tags": ["saas", "document-processing", "b2b", "vision"]
     },
     {
       "id": "5",
@@ -226,11 +191,7 @@
       "sourceName": "Product Hunt",
       "dateFound": "2026-04-10",
       "relevance": 3,
-      "tags": [
-        "digital-product",
-        "affiliate",
-        "education"
-      ]
+      "tags": ["digital-product", "affiliate", "education"]
     },
     {
       "id": "6",
@@ -242,12 +203,7 @@
       "sourceName": "ElevenLabs",
       "dateFound": "2026-04-10",
       "relevance": 4,
-      "tags": [
-        "saas",
-        "content",
-        "audio",
-        "subscription"
-      ]
+      "tags": ["saas", "content", "audio", "subscription"]
     },
     {
       "id": "7",
@@ -259,12 +215,7 @@
       "sourceName": "LangChain",
       "dateFound": "2026-04-10",
       "relevance": 4,
-      "tags": [
-        "saas",
-        "enterprise",
-        "knowledge-base",
-        "b2b"
-      ]
+      "tags": ["saas", "enterprise", "knowledge-base", "b2b"]
     },
     {
       "id": "8",
@@ -276,48 +227,31 @@
       "sourceName": "Fireship",
       "dateFound": "2026-04-10",
       "relevance": 3,
-      "tags": [
-        "saas",
-        "vertical",
-        "subscription",
-        "transcription"
-      ]
+      "tags": ["saas", "vertical", "subscription", "transcription"]
     },
     {
       "id": "9",
       "category": "api",
-      "name": "Reality Defender \u2014 Deepfake & GenAI Detection API",
+      "name": "Reality Defender — Deepfake & GenAI Detection API",
       "description": "YC W22-backed API for detecting AI-generated content (deepfakes, AI images, synthetic audio). Used by enterprises for fraud detection, media verification, and compliance.",
       "leverage": "Build verification-as-a-service for: financial KYC (detect synthetic ID docs), journalism/media (verify authentic content), legal (evidence authentication). $0.01-0.05/detection, enterprise volume contracts.",
       "source": "https://www.realitydefender.com/platform/api",
       "sourceName": "Reality Defender (YC W22)",
       "dateFound": "2026-04-10",
       "relevance": 4,
-      "tags": [
-        "api",
-        "b2b",
-        "security",
-        "verification",
-        "compliance"
-      ]
+      "tags": ["api", "b2b", "security", "verification", "compliance"]
     },
     {
       "id": "10",
       "category": "api",
-      "name": "VAPI \u2014 Voice AI Platform for Developers",
+      "name": "VAPI — Voice AI Platform for Developers",
       "description": "Developer platform for building voice AI agents. Infrastructure for AI-powered phone calls, outbound campaigns, customer service automation. Alternative to Twilio with AI-native architecture.",
-      "leverage": "Build AI call center\u66ff\u4ee3 Twilio for outbound sales, appointment reminder, customer support. Per-minute pricing + subscription. Reseller/margin opportunity as VAPI grows.",
+      "leverage": "Build AI call center替代 Twilio for outbound sales, appointment reminder, customer support. Per-minute pricing + subscription. Reseller/margin opportunity as VAPI grows.",
       "source": "https://vapi.xyz",
       "sourceName": "VAPI",
       "dateFound": "2026-04-10",
       "relevance": 4,
-      "tags": [
-        "api",
-        "saas",
-        "voice",
-        "automation",
-        "call-center"
-      ]
+      "tags": ["api", "saas", "voice", "automation", "call-center"]
     },
     {
       "id": "11",
@@ -329,309 +263,165 @@
       "sourceName": "HN Community",
       "dateFound": "2026-04-10",
       "relevance": 3,
-      "tags": [
-        "affiliate",
-        "comparison",
-        "video",
-        "developer-tools",
-        "saas"
-      ]
+      "tags": ["affiliate", "comparison", "video", "developer-tools", "saas"]
     },
     {
       "id": "12",
       "category": "api",
-      "name": "Klipy \u2014 Meme, Sticker & GIF Generation API",
+      "name": "Klipy — Meme, Sticker & GIF Generation API",
       "description": "AI-powered API for generating memes, stickers, and GIFs programmatically. Developers integrate via REST API for automated social media content, brand marketing, and creator tools.",
       "leverage": "Social media management SaaS add-on, brand partnership tools, OnlyFans/creator economy automation. Per-generation pricing or monthly dev subscriptions.",
       "source": "https://klipy.com/create",
       "sourceName": "Klipy",
       "dateFound": "2026-04-10",
       "relevance": 3,
-      "tags": [
-        "api",
-        "creator-economy",
-        "social-media",
-        "automation",
-        "content"
-      ]
+      "tags": ["api", "creator-economy", "social-media", "automation", "content"]
     },
     {
       "id": "13",
       "category": "framework",
-      "name": "Sutra \u2014 OS for Autonomous AI Agents",
+      "name": "Sutra — OS for Autonomous AI Agents",
       "description": "Open operating system for deploying and orchestrating autonomous AI agents. Framework for building agent-native applications with memory, tools, and self-extending capabilities.",
       "leverage": "Build vertical agent applications on top of Sutra: legal research agent, financial analysis agent, content production agent. License the framework or offer managed cloud deployment.",
       "source": "https://www.sutra.team",
       "sourceName": "Sutra",
       "dateFound": "2026-04-10",
       "relevance": 3,
-      "tags": [
-        "framework",
-        "agents",
-        "autonomous",
-        "saas",
-        "developer-tools"
-      ]
+      "tags": ["framework", "agents", "autonomous", "saas", "developer-tools"]
     },
     {
       "id": "14",
       "category": "api",
-      "name": "ChatGPT Pro $100 Tier \u2014 Codex Agent Pricing Tier",
+      "name": "ChatGPT Pro $100 Tier — Codex Agent Pricing Tier",
       "description": "OpenAI introduced a new $100/month ChatGPT Pro plan with 5X Codex usage limits vs the $20 Plus plan. Codex is OpenAI's agentic vibe-coding harness. OpenAI simultaneously reduced Plus Codex limits, effectively driving power users to the higher tier.",
-      "leverage": "Build Codex-compatible tools, templates, and workflows. The new tier signals a price war in agentic AI \u2014 more developers will pay for better API limits. Create vibe-coding guides, Codex workflow templates, or build alternative agent harnesses that compete on price.",
+      "leverage": "Build Codex-compatible tools, templates, and workflows. The new tier signals a price war in agentic AI — more developers will pay for better API limits. Create vibe-coding guides, Codex workflow templates, or build alternative agent harnesses that compete on price.",
       "source": "https://techcrunch.com/2026/04/09/chatgpt-pro-plan-100-month-codex/",
       "sourceName": "TechCrunch",
       "dateFound": "2026-04-11",
       "relevance": 4,
-      "tags": [
-        "api",
-        "agents",
-        "vibe-coding",
-        "saas",
-        "pricing"
-      ]
+      "tags": ["api", "agents", "vibe-coding", "saas", "pricing"]
     },
     {
       "id": "15",
       "category": "automation",
       "name": "LLM / AI Agent Citation Traffic Optimization",
-      "description": "Research shows LLM-referred traffic converts at 30-40% \u2014 and most enterprises aren't optimizing for it. AI agents don't rank content \u2014 they cite it. Most enterprise content is already invisible in agent-driven queries.",
+      "description": "Research shows LLM-referred traffic converts at 30-40% — and most enterprises aren't optimizing for it. AI agents don't rank content — they cite it. Most enterprise content is already invisible in agent-driven queries.",
       "leverage": "New SEO category: 'AI agent citation optimization.' Help businesses get their content cited in AI agent responses. Subscription-based service: audit content for agent-citation-readiness, optimize for how AI agents ingest and cite sources. $199-999/mo retainer.",
       "source": "https://venturebeat.com/technology/llm-referred-traffic-converts-at-30-40-and-most-enterprises-arent-optimizing/",
       "sourceName": "VentureBeat",
       "dateFound": "2026-04-11",
       "relevance": 5,
-      "tags": [
-        "seo",
-        "content",
-        "b2b",
-        "automation",
-        "llm-citations"
-      ]
+      "tags": ["seo", "content", "b2b", "automation", "llm-citations"]
     },
     {
       "id": "16",
       "category": "integration",
-      "name": "Anthropic 'Claw Tax' \u2014 Multi-Provider Agent Wrapper Demand",
+      "name": "Anthropic 'Claw Tax' — Multi-Provider Agent Wrapper Demand",
       "description": "Anthropic changed policy: Claude subscriptions no longer cover third-party harnesses (OpenClaw etc), requiring separate API payment. OpenClaw's creator was briefly banned from Claude. This creates fragmentation in the agent ecosystem, with users seeking provider-agnostic solutions.",
       "leverage": "Build agent-agnostic wrapper tools that work across Anthropic, OpenAI, Google, and open-source models. Migration consulting for OpenClaw users switching providers. Multi-provider agent dashboards with unified billing. Affiliate revenue from referring users to alternative providers.",
       "source": "https://techcrunch.com/2026/04/10/anthropic-temporarily-banned-openclaws-creator-from-accessing-claude/",
       "sourceName": "TechCrunch",
       "dateFound": "2026-04-11",
       "relevance": 4,
-      "tags": [
-        "integration",
-        "multi-agent",
-        "b2b",
-        "migration",
-        "saas"
-      ]
+      "tags": ["integration", "multi-agent", "b2b", "migration", "saas"]
     },
     {
       "id": "17",
       "category": "monetization",
-      "name": "Block Managerbot \u2014 Vertical AI Agent Market Validation",
+      "name": "Block Managerbot — Vertical AI Agent Market Validation",
       "description": "Block (Square) launched Managerbot, a proactive AI agent for merchants that acts autonomously rather than reactively. This is the clearest proof point yet that vertical AI agents (AI employees) are shipping to production at major companies.",
       "leverage": "If Block is building 'AI employees' for merchants, the same model applies to other verticals: restaurants, law firms, medical practices, agencies. Build niche-specific AI employee products for verticals Block hasn't touched. Partner with or copy the model for underserved industries.",
       "source": "https://venturebeat.com/data/block-introduces-managerbot-a-proactive-square-ai-agent-and-the-clearest",
       "sourceName": "VentureBeat",
       "dateFound": "2026-04-11",
       "relevance": 4,
-      "tags": [
-        "saas",
-        "vertical",
-        "agents",
-        "retainer",
-        "sqrl"
-      ]
+      "tags": ["saas", "vertical", "agents", "retainer", "sqrl"]
     },
     {
       "id": "18",
       "category": "integration",
-      "name": "MCP Apps \u2014 Cross-Platform AI App Convergence",
-      "description": "Both ChatGPT (OpenAI Apps SDK) and Claude (MCP Apps extension) now support inline UI widgets inside AI conversations \u2014 sandboxed iframes that render interactive components. The spec was jointly authored by Anthropic and OpenAI. Build once, deploy to both platforms. Launch partners include Figma, Asana, Slack, Canva, monday.com.",
+      "name": "MCP Apps — Cross-Platform AI App Convergence",
+      "description": "Both ChatGPT (OpenAI Apps SDK) and Claude (MCP Apps extension) now support inline UI widgets inside AI conversations — sandboxed iframes that render interactive components. The spec was jointly authored by Anthropic and OpenAI. Build once, deploy to both platforms. Launch partners include Figma, Asana, Slack, Canva, monday.com.",
       "leverage": "Build MCP Apps for vertical workflows: legal contract review widget, real estate listing embed, medical form filler. These are tiny inline tools, not full apps. Can be monetized as premium tool add-ons or vertical-specific packs. Early mover advantage before mainstream adoption kicks in.",
       "source": "https://modelcontextprotocol.io/docs/extensions/apps",
       "sourceName": "MCP / Anthropic / OpenAI",
       "dateFound": "2026-04-12",
       "relevance": 5,
-      "tags": [
-        "saas",
-        "integration",
-        "multi-platform",
-        "widget",
-        "vertical"
-      ]
+      "tags": ["saas", "integration", "multi-platform", "widget", "vertical"]
     },
     {
       "id": "19",
       "category": "automation",
-      "name": "Goose AAIF \u2014 Open-Source Coding Agent Professionalization",
-      "description": "Goose, the open-source AI coding agent by\u8d35\u9633, moved to the Agentic AI Foundation (AAIF) \u2014 a neutral nonprofit home for agentic AI infrastructure. Signals growing institutional backing for agent standards, governance, and interoperability.",
-      "leverage": "Contribute to or build on AAIF-backed agent standards. The professionalization of open agent infrastructure means enterprise adoption is coming \u2014 build tools, plugins, and services for the emerging AAIF ecosystem before big players move in.",
+      "name": "Goose AAIF — Open-Source Coding Agent Professionalization",
+      "description": "Goose, the open-source AI coding agent by贵阳, moved to the Agentic AI Foundation (AAIF) — a neutral nonprofit home for agentic AI infrastructure. Signals growing institutional backing for agent standards, governance, and interoperability.",
+      "leverage": "Contribute to or build on AAIF-backed agent standards. The professionalization of open agent infrastructure means enterprise adoption is coming — build tools, plugins, and services for the emerging AAIF ecosystem before big players move in.",
       "source": "https://goose-docs.ai/blog/2026/04/07/goose-moves-to-aaif/",
       "sourceName": "Goose / AAIF",
       "dateFound": "2026-04-12",
       "relevance": 3,
-      "tags": [
-        "framework",
-        "agents",
-        "open-source",
-        "enterprise",
-        "standards"
-      ]
+      "tags": ["framework", "agents", "open-source", "enterprise", "standards"]
     },
     {
       "id": "20",
       "category": "framework",
-      "name": "HyperFlow \u2014 Self-Improving Agent Framework on LangGraph",
-      "description": "Self-improving agent framework built on LangGraph. Agents that learn from their own failures, persist knowledge, and improve during use \u2014 not just during training. Launched on HN April 11.",
+      "name": "HyperFlow — Self-Improving Agent Framework on LangGraph",
+      "description": "Self-improving agent framework built on LangGraph. Agents that learn from their own failures, persist knowledge, and improve during use — not just during training. Launched on HN April 11.",
       "leverage": "Build vertical-specific agent products on HyperFlow. The self-improving aspect means less manual tuning needed per client. Could be offered as a managed service or white-label solution for enterprises that want autonomous agents with memory.",
       "source": "https://news.ycombinator.com/item?id=47360000",
       "sourceName": "HN / HyperFlow",
       "dateFound": "2026-04-12",
       "relevance": 4,
-      "tags": [
-        "framework",
-        "agents",
-        "self-improving",
-        "langgraph",
-        "saas"
-      ]
+      "tags": ["framework", "agents", "self-improving", "langgraph", "saas"]
     },
     {
       "id": "21",
       "category": "automation",
-      "name": "Vakr \u2014 Agent Task Marketplace & Reputation System",
-      "description": "A task market where AI agents post work, claim it, and build verifiable reputation. Agents earn credits, accumulate reviews, and compete for gigs \u2014 creating an economy around autonomous agent labor. Real data only, reputation is on-chain.",
+      "name": "Vakr — Agent Task Marketplace & Reputation System",
+      "description": "A task market where AI agents post work, claim it, and build verifiable reputation. Agents earn credits, accumulate reviews, and compete for gigs — creating an economy around autonomous agent labor. Real data only, reputation is on-chain.",
       "leverage": "Build specialized agents that serve specific niches on Vakr. Agents that can handle legal research, accounting tasks, or content creation would have less competition than generalist agents. Own the agent, earn recurring credits. Early adopter arbitrage as the platform grows.",
       "source": "https://vakr.me",
       "sourceName": "Vakr",
       "dateFound": "2026-04-12",
       "relevance": 3,
-      "tags": [
-        "agents",
-        "marketplace",
-        "autonomous",
-        "reputation",
-        "saas"
-      ]
+      "tags": ["agents", "marketplace", "autonomous", "reputation", "saas"]
     },
     {
       "id": "22",
       "category": "api",
-      "name": "Seedance 2.0 \u2014 ByteDance Audio-Driven Video Generation API",
-      "description": "ByteDance's Seedance 2.0 accepts 4 input modalities simultaneously (text, images, video clips, audio) and produces audio-synced video \u2014 meaning motion is conditioned on the audio's beat structure, not just overlaid. Multi-reference system (@image1, @video1, @audio1) for precise control. Built into Dreamina platform, API access via atlascloud.ai.",
-      "leverage": "Build video generation SaaS tools leveraging Seedance 2.0 API for niches: music video generation, podcast video creation, advertisement production. The audio-driven video distinction is technical moat \u2014 competitors don't have beat-synced motion. API reseller opportunity as demand grows.",
+      "name": "Seedance 2.0 — ByteDance Audio-Driven Video Generation API",
+      "description": "ByteDance's Seedance 2.0 accepts 4 input modalities simultaneously (text, images, video clips, audio) and produces audio-synced video — meaning motion is conditioned on the audio's beat structure, not just overlaid. Multi-reference system (@image1, @video1, @audio1) for precise control. Built into Dreamina platform, API access via atlascloud.ai.",
+      "leverage": "Build video generation SaaS tools leveraging Seedance 2.0 API for niches: music video generation, podcast video creation, advertisement production. The audio-driven video distinction is technical moat — competitors don't have beat-synced motion. API reseller opportunity as demand grows.",
       "source": "https://www.atlascloud.ai/",
       "sourceName": "Atlas Cloud / Dreamina",
       "dateFound": "2026-04-12",
       "relevance": 4,
-      "tags": [
-        "api",
-        "video",
-        "audio",
-        "content",
-        "saas",
-        "monetization"
-      ]
+      "tags": ["api", "video", "audio", "content", "saas", "monetization"]
     },
     {
       "id": "23",
       "category": "api",
-      "name": "Velt Activity Logs SDK \u2014 AI Agent Audit Trail Infrastructure",
+      "name": "Velt Activity Logs SDK — AI Agent Audit Trail Infrastructure",
       "description": "SDK for adding activity logs and audit trails to SaaS apps with full attribution for AI agent actions. Tracks user actions, AI agent actions, and custom events with SOC 2 and HIPAA compliance. Emerged from YC W26 cohort.",
       "leverage": "Every AI agent-powered SaaS needs audit logs for compliance, debugging, and billing. Build Velt integrations into existing agent products. Reseller margins on Velt subscriptions, or build competing audit trail infrastructure for specific verticals (legal, medical, finance).",
       "source": "https://velt.dev/activity-logs",
       "sourceName": "Velt (YC W26)",
       "dateFound": "2026-04-12",
       "relevance": 3,
-      "tags": [
-        "api",
-        "saas",
-        "compliance",
-        "audit",
-        "b2b",
-        "yc"
-      ]
+      "tags": ["api", "saas", "compliance", "audit", "b2b", "yc"]
     },
     {
       "id": "24",
       "category": "automation",
-      "name": "Relvy \u2014 AI On-Call Runbook Automation (YC F24)",
+      "name": "Relvy — AI On-Call Runbook Automation (YC F24)",
       "description": "YC F24 startup automating on-call runbooks with AI. Reduces MTTR (mean time to resolution) by executing runbook steps autonomously during incidents. Connects to monitoring tools and executes remediation steps without human intervention.",
       "leverage": "Build Relvy integrations for niche monitoring ecosystems (healthcare IT, financial trading infrastructure, manufacturing SCADA). Partner with or build competing products for verticals Relvy hasn't targeted yet. The on-call automation market is massive and underserved by current AI tools.",
       "source": "https://www.relvy.ai",
       "sourceName": "Relvy (YC F24)",
       "dateFound": "2026-04-12",
       "relevance": 3,
-      "tags": [
-        "automation",
-        "saas",
-        "devops",
-        "yc",
-        "retainer",
-        "b2b"
-      ]
-    },
-    {
-      "id": "25",
-      "category": "integration",
-      "name": "Anthropic Mythos \u2014 Bank Regulatory AI Compliance Opportunity",
-      "description": "Trump officials (Treasury Secretary Bessent, Fed Chair Powell) directly encouraged Goldman Sachs, Citigroup, Bank of America, and Morgan Stanley to test Anthropic's Mythos model for detecting financial vulnerabilities. This is government-backed validation of enterprise AI adoption in banking. JPMorgan was already a launch partner.",
-      "leverage": "Build AI audit/compliance frameworks specifically for banks adopting Mythos. Help financial institutions navigate the regulatory landscape for AI deployment, produce audit documentation, and build internal compliance workflows. First-mover advantage \u2014 no AI audit agency is specifically targeting the financial sector's Mythos adoption wave.",
-      "source": "https://techcrunch.com/2026/04/12/trump-officials-may-be-encouraging-banks-to-test-anthropics-mythos-model/",
-      "sourceName": "TechCrunch",
-      "dateFound": "2026-04-13",
-      "relevance": 5,
-      "tags": [
-        "b2b",
-        "finance",
-        "compliance",
-        "anthropic",
-        "enterprise",
-        "audit"
-      ]
-    },
-    {
-      "id": "26",
-      "category": "automation",
-      "name": "SMS-to-AI-Agent Infrastructure (Poke Pattern)",
-      "description": "Poke (April 2026) launched a platform making AI agents accessible via SMS/text message \u2014 no app, no GUI, just send a text. This is the ' texting a human' interface pattern for AI agents. Makes autonomous AI accessible to non-technical users and the 3B+ feature phone users globally.",
-      "leverage": "Build vertical SMS AI agents: appointment scheduling, order taking, customer support, concierge services. White-label Poke-style SMS wrappers for businesses. The SMS interface removes all friction \u2014 users already know how to text. Target restaurants, salons, small businesses who can't afford apps but can afford $50-200/mo for an AI receptionist.",
-      "source": "https://techcrunch.com/2026/04/08/poke-makes-using-ai-agents-as-easy-as-sending-a-text/",
-      "sourceName": "TechCrunch",
-      "dateFound": "2026-04-13",
-      "relevance": 4,
-      "tags": [
-        "automation",
-        "sms",
-        "agents",
-        "smb",
-        "consumer",
-        "accessibility"
-      ]
-    },
-    {
-      "id": "27",
-      "category": "api",
-      "name": "Ultra-Long Context Models \u2014 Million-Token API Arbitrage",
-      "description": "New models on OpenRouter now offer 1M-2M token context windows (x-ai/grok-4.20 at 2M tokens, google/lyria-3-pro at 1M+ tokens). This enables processing entire codebases, years of documents, full legal contracts, or entire books in a single API call. Context window commoditization is driving prices down.",
-      "leverage": "Build document intelligence SaaS: entire contract review, code repository analysis, financial document synthesis. Long-context API reseller with margin. The price gap between providers for long-context tasks creates arbitrage opportunity. Target: legal document review, financial due diligence, software codebase analysis.",
-      "source": "https://openrouter.ai/api/v1/models",
-      "sourceName": "OpenRouter / Multiple Providers",
-      "dateFound": "2026-04-13",
-      "relevance": 4,
-      "tags": [
-        "api",
-        "document-processing",
-        "legal",
-        "code-analysis",
-        "arbitrage",
-        "saas"
-      ]
+      "tags": ["automation", "saas", "devops", "yc", "retainer", "b2b"]
     }
   ],
-  "lastUpdated": "2026-04-12T22:03:33Z",
-  "nextScan": "2026-04-14T00:00:00Z"
+  "lastUpdated": "2026-04-12T00:00:00Z",
+  "nextScan": "2026-04-13T00:00:00Z"
 }

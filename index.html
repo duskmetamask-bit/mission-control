@@ -149,6 +149,249 @@
       color: var(--amber);
     }
 
+    .tab.emvy-active {
+      background: rgba(34,197,94,0.1);
+      border-color: rgba(34,197,94,0.3);
+      color: var(--green);
+    }
+
+    /* EMVY SECTION */
+    .emvy-section {
+      border-bottom: 1px solid var(--border);
+      padding: 24px 32px;
+    }
+
+    .emvy-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .emvy-logo {
+      background: var(--green);
+      color: #000;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .emvy-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* PIPELINE FUNNEL */
+    .pipeline-bar {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .pipeline-stage {
+      flex: 1;
+      text-align: center;
+      padding: 10px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+    }
+
+    .pipeline-stage.has-data {
+      background: rgba(34,197,94,0.1);
+      border-color: rgba(34,197,94,0.3);
+      color: var(--green);
+    }
+
+    .pipeline-numbers {
+      display: flex;
+      gap: 4px;
+    }
+
+    .pipeline-num {
+      flex: 1;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--green);
+      padding: 4px;
+    }
+
+    /* SALES FLOW */
+    .sales-flow {
+      display: flex;
+      gap: 6px;
+      margin-top: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .flow-step {
+      flex: 1;
+      min-width: 100px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+
+    .flow-step-num {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .flow-step.done .flow-step-num { color: var(--green); }
+    .flow-step.active .flow-step-num { color: var(--amber); }
+
+    .flow-step-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .flow-step-desc {
+      font-size: 10px;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .flow-step.done {
+      background: rgba(34,197,94,0.05);
+      border-color: rgba(34,197,94,0.2);
+    }
+
+    .flow-step.active {
+      background: var(--amber-bg);
+      border-color: var(--amber-dim);
+    }
+
+    /* TASKS */
+    .tasks-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .tasks-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tasks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 10px;
+    }
+
+    .task-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      transition: border-color 0.15s;
+    }
+
+    .task-card:hover {
+      border-color: var(--amber-dim);
+    }
+
+    .task-card.done {
+      opacity: 0.5;
+    }
+
+    .task-priority {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .task-priority.high { background: rgba(239,68,68,0.15); color: var(--red); }
+    .task-priority.medium { background: rgba(245,158,11,0.15); color: var(--amber); }
+    .task-priority.low { background: rgba(34,197,94,0.15); color: var(--green); }
+
+    .task-content { flex: 1; }
+
+    .task-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .task-due {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .task-status {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .task-status.todo { background: var(--bg-card); color: var(--text-dim); border: 1px solid var(--border); }
+    .task-status.done { background: rgba(34,197,94,0.15); color: var(--green); }
+
+    /* REVENUE */
+    .revenue-bar {
+      margin-top: 20px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+
+    .revenue-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .revenue-track {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .revenue-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
     .search-box {
       flex: 1;
       min-width: 200px;
@@ -374,7 +617,7 @@
   <div class="header-meta" id="lastUpdated"></div>
 </header>
 
-<div class="stats-bar" id="statsBar">
+  <div class="stats-bar" id="statsBar">
   <div class="stat">
     <div class="stat-label">Total Opportunities</div>
     <div class="stat-value" id="totalCount">—</div>
@@ -393,6 +636,38 @@
   </div>
 </div>
 
+<!-- EMVY STATS BAR (hidden by default) -->
+<div class="stats-bar" id="emvyStatsBar" style="display:none;">
+  <div class="stat">
+    <div class="stat-label">Prospects</div>
+    <div class="stat-value" id="emvy-prospect" style="color: var(--text-dim);">0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Contacted</div>
+    <div class="stat-value" id="emvy-contacted" style="color: var(--text-dim);">0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Qualified</div>
+    <div class="stat-value" id="emvy-qualified" style="color: var(--amber);">0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Booked</div>
+    <div class="stat-value" id="emvy-booked" style="color: var(--amber);">0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Closed</div>
+    <div class="stat-value" id="emvy-closed" style="color: var(--green);">0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Revenue</div>
+    <div class="stat-value" id="emvy-revenue" style="color: var(--green);">$0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Target</div>
+    <div class="stat-value" style="font-size: 20px;">$10K/mo</div>
+  </div>
+</div>
+
 <div class="controls">
   <div class="filter-tabs" id="filterTabs">
     <button class="tab active" data-filter="all">All</button>
@@ -401,6 +676,7 @@
     <button class="tab" data-filter="automation">Automation</button>
     <button class="tab" data-filter="integration">Integrations</button>
     <button class="tab" data-filter="monetization">Monetization</button>
+    <button class="tab" data-filter="emvy" style="margin-left: auto; border-color: rgba(34,197,94,0.3);">EMVY</button>
   </div>
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="Search capabilities...">
@@ -409,6 +685,112 @@
 
 <div class="grid" id="grid">
   <div class="loading">Loading opportunities...</div>
+</div>
+
+<!-- EMVY SECTION (hidden by default) -->
+<div id="emvySection" style="display: none;">
+  <div class="emvy-section">
+    <div class="emvy-header">
+      <div class="emvy-logo">EMVY</div>
+      <div class="emvy-title">AI Consultancy — Sales Pipeline</div>
+    </div>
+
+    <!-- Pipeline Funnel -->
+    <div class="pipeline-bar">
+      <div class="pipeline-stage" id="stage-prospect"><div>Prospect</div></div>
+      <div class="pipeline-stage" id="stage-contacted"><div>Contacted</div></div>
+      <div class="pipeline-stage" id="stage-qualified"><div>Qualified</div></div>
+      <div class="pipeline-stage" id="stage-booked"><div>Booked</div></div>
+      <div class="pipeline-stage" id="stage-closed"><div>Closed</div></div>
+    </div>
+    <div class="pipeline-numbers">
+      <div class="pipeline-num" id="num-prospect">0</div>
+      <div class="pipeline-num" id="num-contacted">0</div>
+      <div class="pipeline-num" id="num-qualified">0</div>
+      <div class="pipeline-num" id="num-booked">0</div>
+      <div class="pipeline-num" id="num-closed">0</div>
+    </div>
+
+    <!-- Sales Flow -->
+    <div class="sales-flow" id="salesFlow"></div>
+
+    <!-- Revenue -->
+    <div class="revenue-bar">
+      <div class="revenue-label">
+        <span>Monthly Revenue</span>
+        <span id="revenueText">$0 / $10,000</span>
+      </div>
+      <div class="revenue-track">
+        <div class="revenue-fill" id="revenueFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tasks Section -->
+  <div class="emvy-section">
+    <div class="tasks-header">
+      <div class="tasks-title">Next Actions</div>
+    </div>
+    <div class="tasks-grid" id="emvyTasks"></div>
+  </div>
+
+  <!-- Audit Report Deliverables -->
+  <div class="emvy-section">
+    <div class="tasks-header">
+      <div class="tasks-title">Audit Report — 7 Deliverables</div>
+    </div>
+    <div class="tasks-grid">
+      <div class="task-card">
+        <div class="task-priority high">D1</div>
+        <div class="task-content">
+          <div class="task-name">Executive Summary</div>
+          <div class="task-due">1 page — top 3 priorities, quick wins</div>
+        </div>
+      </div>
+      <div class="task-card">
+        <div class="task-priority high">D2</div>
+        <div class="task-content">
+          <div class="task-name">AI Inventory & Recommendations</div>
+          <div class="task-due">Keep / Kill / Upgrade / Replace table</div>
+        </div>
+      </div>
+      <div class="task-card">
+        <div class="task-priority high">D3</div>
+        <div class="task-content">
+          <div class="task-name">Workflow Analysis</div>
+          <div class="task-due">Current workflows + AI slot-in map</div>
+        </div>
+      </div>
+      <div class="task-card">
+        <div class="task-priority high">D4</div>
+        <div class="task-content">
+          <div class="task-name">Security & Risk Report</div>
+          <div class="task-due">Data exposure, compliance risks, fixes</div>
+        </div>
+      </div>
+      <div class="task-card">
+        <div class="task-priority medium">D5</div>
+        <div class="task-content">
+          <div class="task-name">Prompt Library Review</div>
+          <div class="task-due">Rate current prompts, replacements</div>
+        </div>
+      </div>
+      <div class="task-card">
+        <div class="task-priority high">D6</div>
+        <div class="task-content">
+          <div class="task-name">90-Day AI Roadmap</div>
+          <div class="task-due">Month 1/2/3 priorities with milestones</div>
+        </div>
+      </div>
+      <div class="task-card">
+        <div class="task-priority medium">D7</div>
+        <div class="task-content">
+          <div class="task-name">Build Phase Proposal</div>
+          <div class="task-due">Specific projects, costs, timelines</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -423,6 +805,7 @@ const CATEGORY_LABELS = {
 let allOpportunities = [];
 let activeFilter = 'all';
 let searchQuery = '';
+let emvyData = null;
 
 function formatDate(dateStr) {
   const d = new Date(dateStr);
@@ -503,6 +886,22 @@ function renderCards(opportunities) {
 }
 
 function filterAndRender() {
+  if (activeFilter === 'emvy') {
+    document.getElementById('grid').style.display = 'none';
+    document.getElementById('emvySection').style.display = 'block';
+    document.getElementById('statsBar').style.display = 'none';
+    document.getElementById('emvyStatsBar').style.display = 'grid';
+    document.querySelector('.controls').style.display = 'none';
+    renderEmvy();
+    return;
+  }
+
+  document.getElementById('grid').style.display = 'grid';
+  document.getElementById('emvySection').style.display = 'none';
+  document.getElementById('statsBar').style.display = 'grid';
+  document.getElementById('emvyStatsBar').style.display = 'none';
+  document.querySelector('.controls').style.display = 'flex';
+
   let filtered = allOpportunities;
 
   if (activeFilter !== 'all') {
@@ -522,12 +921,65 @@ function filterAndRender() {
   renderCards(filtered);
 }
 
+function renderEmvy() {
+  if (!emvyData) return;
+  const p = emvyData.pipeline;
+
+  // Pipeline numbers
+  const stages = ['prospect', 'contacted', 'qualified', 'booked', 'closed'];
+  stages.forEach(stage => {
+    const num = p[stage] || 0;
+    document.getElementById('num-' + stage).textContent = num;
+    document.getElementById('stage-' + stage).classList.toggle('has-data', num > 0);
+  });
+
+  // EMVY stats bar
+  document.getElementById('emvy-prospect').textContent = p.prospect || 0;
+  document.getElementById('emvy-contacted').textContent = p.contacted || 0;
+  document.getElementById('emvy-qualified').textContent = p.qualified || 0;
+  document.getElementById('emvy-booked').textContent = p.booked || 0;
+  document.getElementById('emvy-closed').textContent = p.closed || 0;
+
+  const revenue = (p.closed || 0) * 1500;
+  document.getElementById('emvy-revenue').textContent = '$' + revenue.toLocaleString();
+  document.getElementById('revenueText').textContent = '$' + revenue.toLocaleString() + ' / $10,000';
+  document.getElementById('revenueFill').style.width = Math.min(100, (revenue / 10000) * 100) + '%';
+
+  // Sales flow
+  const flow = emvyData.salesFlow || [];
+  const flowEl = document.getElementById('salesFlow');
+  flowEl.innerHTML = flow.map((step, i) => {
+    const isDone = step.status === 'done';
+    const isActive = step.status === 'active';
+    let cls = 'flow-step';
+    if (isDone) cls += ' done';
+    if (isActive) cls += ' active';
+    return '<div class="' + cls + '"><div class="flow-step-num">Step ' + step.step + '</div><div class="flow-step-name">' + step.name + '</div><div class="flow-step-desc">' + step.description + '</div></div>';
+  }).join('');
+
+  // Tasks
+  const tasks = emvyData.nextActions || [];
+  const tasksEl = document.getElementById('emvyTasks');
+  tasksEl.innerHTML = tasks.map(task => {
+    const isDone = task.status === 'done';
+    return '<div class="task-card' + (isDone ? ' done' : '') + '">' +
+      '<div class="task-priority ' + task.priority + '">' + task.priority + '</div>' +
+      '<div class="task-content">' +
+        '<div class="task-name">' + task.task + '</div>' +
+        '<div class="task-due">' + task.due + '</div>' +
+      '</div>' +
+      '<div class="task-status ' + task.status + '">' + task.status + '</div>' +
+    '</div>';
+  }).join('');
+}
+
 async function init() {
   try {
     const res = await fetch('data.json');
     if (!res.ok) throw new Error('Failed to load data');
     const data = await res.json();
     allOpportunities = data.opportunities || [];
+    emvyData = data.emvy || null;
     renderStats(data);
     renderCards(allOpportunities);
   } catch (e) {

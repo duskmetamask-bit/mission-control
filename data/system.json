@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "n8n",
+    "Status": "Running \u2014 workflows active",
+    "dotClass": "dot-green"
+  },
+  {
+    "Name": "OpenClaw Gateway",
+    "Status": "Active",
+    "dotClass": "dot-green"
+  },
+  {
+    "Name": "VPS Disk",
+    "Status": "34% used",
+    "dotClass": "dot-green"
+  },
+  {
+    "Name": "Mission Control",
+    "Status": "Live",
+    "dotClass": "dot-green"
+  }
+]

@@ -1,0 +1,47 @@
+{
+  "updated": "08:30am",
+  "date": "Mon Apr 13",
+  "pendingCount": 0,
+  "emailsSent": 0,
+  "postsDelivered": 0,
+  "pending": [],
+  "attention": [],
+  "list": [
+    {
+      "id": "karma",
+      "name": "Karma",
+      "task": "Awaiting first campaign",
+      "status": "idle"
+    },
+    {
+      "id": "connor",
+      "name": "Connor",
+      "task": "Daily scan active",
+      "status": "active"
+    },
+    {
+      "id": "maya",
+      "name": "Maya",
+      "task": "Content operation running",
+      "status": "active"
+    },
+    {
+      "id": "yuki",
+      "name": "Yuki",
+      "task": "Coordination active",
+      "status": "idle"
+    },
+    {
+      "id": "claude",
+      "name": "Claude Code",
+      "task": "Awaiting task",
+      "status": "idle"
+    },
+    {
+      "id": "xi",
+      "name": "Xi",
+      "task": "Paper trading",
+      "status": "active"
+    }
+  ]
+}

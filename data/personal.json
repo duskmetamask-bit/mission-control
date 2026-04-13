@@ -1,0 +1,11 @@
+{
+  "followers": "+45",
+  "engagement": "12%",
+  "trading": "+2.3%",
+  "tradingStatus": "Paper trading",
+  "habits": [
+    {"name": "Workout", "done": true},
+    {"name": "Meditation", "done": false},
+    {"name": "Journal", "done": false}
+  ]
+}

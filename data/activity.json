@@ -1,0 +1,12 @@
+{
+  "items": [
+    {"time": "8:42am", "agent": "Karma", "text": "Sent 5 emails in sequence #1"},
+    {"time": "8:35am", "agent": "Maya", "text": "Delivered morning posts package"},
+    {"time": "8:30am", "agent": "Yuki", "text": "Morning brief sent to Telegram"},
+    {"time": "8:15am", "agent": "Claude Code", "text": "Mission control dashboard built"},
+    {"time": "7:00am", "agent": "Connor", "text": "Daily self-improvement scan complete"},
+    {"time": "Yesterday", "agent": "Xi", "text": "Paper trade: +1.2% on AAVE position"},
+    {"time": "Yesterday", "agent": "Karma", "text": "Gmail warmup: day 2 complete"},
+    {"time": "Yesterday", "agent": "Connor", "text": "Audit report #1 delivered"}
+  ]
+}
