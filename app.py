@@ -1,5 +1,5 @@
 """
-MISSION CONTROL — BUILD FACTORY DASHBOARD
+THE AI WAR ROOM
 Autonomous SaaS/project prototype factory.
 Yuki runs: research → evaluate → build → deploy → review → loop
 """
@@ -14,7 +14,7 @@ from pathlib import Path
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Mission Control",
+    page_title="The AI War Room",
     page_icon="🎛️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -631,4 +631,4 @@ with tab5:
         </div>
         """, unsafe_allow_html=True)
 
-st.caption(f"Mission Control v1.0 · Pipeline: {VAULT_PIPELINE}")
+st.caption(f"The AI War Room v1.0 · Pipeline: ~/.openclaw/vault/dawn-vault/YUKI/projects/mission-control/pipeline.json

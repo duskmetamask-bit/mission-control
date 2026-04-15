@@ -1,4 +1,4 @@
-# OPENCLAW MISSION CONTROL
+# OPENCLAW THE AI WAR ROOM
 
 Single-pane-of-glass visibility and control over OpenClaw agent operations.
 
