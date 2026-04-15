@@ -1,7 +1,7 @@
 """
 THE AI WAR ROOM
-Autonomous SaaS/project prototype factory.
-Yuki runs: research → evaluate → build → deploy → review → loop
+Shared AI brain + Build Factory. Fully operating machine.
+Yuki + Dusk + Mewy all contribute and retrieve.
 """
 
 import streamlit as st
@@ -15,33 +15,32 @@ from pathlib import Path
 # ─── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="The AI War Room",
-    page_icon="🎛️",
+    page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 AWST_TZ = timezone(timedelta(hours=8))
-VAULT_PIPELINE = Path.home() / ".openclaw/vault/dawn-vault/YUKI/projects/mission-control/pipeline.json"
-CLI_TIMEOUT = 8
+VAULT_BASE = Path.home() / ".openclaw/vault/dawn-vault/YUKI/projects/mission-control"
+WAR_ROOM_JSON = VAULT_BASE / "war-room.json"
+PIPELINE_JSON = VAULT_BASE / "pipeline.json"
+VAULT_BASE.mkdir(parents=True, exist_ok=True)
 
 # ─── Helpers ───────────────────────────────────────────────────────────────────
 
-def load_pipeline() -> dict:
+def load_json(path):
     try:
-        return json.loads(VAULT_PIPELINE.read_text())
+        return json.loads(path.read_text())
     except:
-        return {"projects": [], "opportunities": [], "last_research": None, "build_queue": []}
+        return None
 
-
-def save_pipeline(data: dict):
-    VAULT_PIPELINE.write_text(json.dumps(data, indent=2))
-
+def save_json(path, data):
+    path.write_text(json.dumps(data, indent=2))
 
 def now_awst():
     return datetime.now(AWST_TZ)
 
-
-def ts_ago(ts: str) -> str:
+def ts_ago(ts):
     try:
         dt = datetime.fromisoformat(ts.replace("Z", "+00:00")).replace(tzinfo=timezone.utc)
         delta = now_awst().replace(tzinfo=timezone.utc) - dt
@@ -51,584 +50,565 @@ def ts_ago(ts: str) -> str:
         if s < 86400: return f"{s//3600}h ago"
         return f"{s//86400}d ago"
     except:
-        return ts
+        return str(ts) if ts else "?"
 
-
-def score_color(total: int) -> str:
-    if total >= 24: return "🟢"
-    if total >= 18: return "🟡"
-    return "🔴"
-
-
-STAGE_EMOJI = {
-    "new": "🆕",
-    "scored": "📊",
-    "building": "🔨",
-    "deployed": "🚀",
-    "shipped": "✅",
-    "killed": "🗑️",
-    "iterate": "🔁",
+CATEGORIES = {
+    "whats_happening": "🔥 What's Happening",
+    "problems": "😤 Problems People Face",
+    "what_people_want": "🔍 What People Want",
+    "model_comparisons": "🧠 Model Comparisons",
+    "opportunity_seeds": "💡 Opportunity Seeds",
 }
 
-STAGE_COLORS = {
-    "new": "#6e7681",
-    "scored": "#58a6ff",
-    "building": "#d29922",
-    "deployed": "#a371f7",
-    "shipped": "#3fb950",
-    "killed": "#f85149",
-    "iterate": "#d29922",
-}
+CONTRIBUTORS = ["Yuki", "Dusk", "Mewy"]
 
+def score_opp(demand, feasible, margin, time_build):
+    total = demand + feasible + margin + (10 - time_build)
+    color = "🟢" if total >= 24 else ("🟡" if total >= 18 else "🔴")
+    return total, color
 
-# ─── Dark Theme ───────────────────────────────────────────────────────────────
+# ─── Theme ─────────────────────────────────────────────────────────────────────
 
 st.markdown("""
 <style>
     html, body, .stApp { background-color: #0d1117; color: #c9d1d9; }
     h1, h2, h3, h4 { color: #58a6ff !important; font-family: 'Courier New', monospace; }
-    .stApp { }
-    label, .stText, p, span, div { color: #c9d1d9 !important; }
+    .stText, p, span, div, label { color: #c9d1d9 !important; }
     .stTextInput > div > div > input,
     .stTextArea > div > div > textarea,
     .stSelectbox > div > div > div { background: #161b22 !important; color: #c9d1d9 !important; border: 1px solid #30363d !important; }
     .stNumberInput > div > div > input { background: #161b22 !important; color: #c9d1d9 !important; border: 1px solid #30363d !important; }
-    .stButton > button { background: #238636; color: white; border: none; border-radius: 6px; padding: 8px 18px; font-weight: 600; width: 100%; }
+    .stButton > button { background: #238636; color: white; border: none; border-radius: 6px; padding: 8px 18px; font-weight: 600; }
     .stButton > button:hover { background: #2ea043; }
-    .stButton-secondary > button { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; }
-    .stButton-secondary > button:hover { background: #30363d; }
-    .stSelectbox label, .stTextArea label, .stTextInput label { color: #8b949e !important; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
-    table { border-collapse: collapse; width: 100%; }
-    th { background: #161b22; color: #8b949e; padding: 8px 12px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #30363d; }
-    td { padding: 8px 12px; border-bottom: 1px solid #21262d; font-size: 13px; }
-    tr:hover { background: #161b22; }
-    .metric-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; text-align: center; }
-    .metric-num { font-size: 28px; font-weight: 700; color: #58a6ff; font-family: 'Courier New', monospace; }
-    .metric-label { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
-    .stage-badge { padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 700; display: inline-block; }
+    .stButtonSecondary > button { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; }
+    .intel-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; margin: 8px 0; }
+    .intel-category { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #8b949e; }
+    .intel-content { font-size: 13px; color: #e6edf3; margin: 6px 0; }
+    .intel-meta { font-size: 11px; color: #8b949e; }
+    .tag { background: #1f3a5f; color: #58a6ff; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 2px; display: inline-block; }
+    .category-tab { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 10px; margin: 4px 0; cursor: pointer; }
+    .opp-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; margin: 8px 0; border-left: 4px solid; }
+    .score-high { border-left-color: #3fb950; }
+    .score-med { border-left-color: #d29922; }
+    .score-low { border-left-color: #f85149; }
     .kanban-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; margin: 6px 0; border-left: 4px solid; }
-    .opp-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; margin: 6px 0; }
-    .pipeline-col { background: #0d1117; border-radius: 8px; padding: 10px; min-height: 400px; }
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0d1117; }
     ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
-    .block-container { padding: 1rem 1.5rem; }
-    .stDivider > div > hr { border-color: #30363d; }
     section[data-testid="stSidebar"] { background: #161b22; border-right: 1px solid #30363d; }
-    .sidebar-section { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 12px; margin: 8px 0; }
+    .metric-box { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 14px; text-align: center; }
+    .metric-n { font-size: 28px; font-weight: 700; color: #58a6ff; font-family: 'Courier New', monospace; }
+    .metric-l { font-size: 10px; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
+    .divider { border-top: 1px solid #30363d; margin: 12px 0; }
 </style>
 """, unsafe_allow_html=True)
 
-
 # ─── Load Data ────────────────────────────────────────────────────────────────
 
-data = load_pipeline()
-projects = data.get("projects", [])
-opportunities = data.get("opportunities", [])
-build_queue = data.get("build_queue", [])
+data = load_json(WAR_ROOM_JSON) or {
+    "intel": {cat: [] for cat in CATEGORIES},
+    "opportunities": [],
+    "projects": [],
+    "activity": []
+}
 
-active_projects = [p for p in projects if p["stage"] not in ("shipped", "killed")]
-scored_opps = [o for o in opportunities if o.get("scored")]
-unscored_opps = [o for o in opportunities if not o.get("scored")]
-shipped = [p for p in projects if p["stage"] == "shipped"]
-building = [p for p in projects if p["stage"] == "building"]
-deployed = [p for p in projects if p["stage"] == "deployed"]
+pipeline = load_json(PIPELINE_JSON) or {"projects": [], "opportunities": [], "last_research": None}
 
-# ─── Sidebar: Quick Actions ───────────────────────────────────────────────────
+# Merge pipeline opportunities into data for display
+all_opportunities = data.get("opportunities", []) + pipeline.get("opportunities", [])
+intel_categories = data.get("intel", {})
+projects = pipeline.get("projects", [])
+
+active_projects = [p for p in projects if p.get("stage") not in ("shipped", "killed")]
+shipped = [p for p in projects if p.get("stage") == "shipped"]
+building = [p for p in projects if p.get("stage") == "building"]
+
+# ─── Sidebar ───────────────────────────────────────────────────────────────────
 
 with st.sidebar:
-    st.markdown("### ⚡ Mission Control")
+    st.markdown("### 🧠 The AI War Room")
     st.divider()
 
     # Quick stats
-    st.markdown(f"""
-    <div class="metric-card">
-    <div class="metric-num" style="font-size:20px">{len(active_projects)}</div>
-    <div class="metric-label">Active Projects</div>
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown(f"""
-    <div class="metric-card">
-    <div class="metric-num" style="font-size:20px">{len(scored_opps)}</div>
-    <div class="metric-label">Scored Opps</div>
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown(f"""
-    <div class="metric-card">
-    <div class="metric-num" style="font-size:20px">{len(shipped)}</div>
-    <div class="metric-label">Shipped</div>
-    </div>
-    """, unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        total_intel = sum(len(v) for v in intel_categories.values())
+        st.markdown(f'<div class="metric-box"><div class="metric-n">{total_intel}</div><div class="metric-l">Intel Entries</div></div>', unsafe_allow_html=True)
+    with col2:
+        st.markdown(f'<div class="metric-box"><div class="metric-n">{len(all_opportunities)}</div><div class="metric-l">Opportunities</div></div>', unsafe_allow_html=True)
+
+    st.markdown(f'<div class="metric-box"><div class="metric-n" style="color:#3fb950">{len(shipped)}</div><div class="metric-l">Shipped</div></div>', unsafe_allow_html=True)
+
     st.divider()
 
-    # Add opportunity
-    st.markdown("**📝 Add Opportunity**")
-    with st.expander("New research lead", expanded=False):
-        opp_name = st.text_input("What is it?", placeholder="AI tool / SaaS gap", key="opp_name")
-        opp_source = st.text_input("Source", placeholder="Reddit / search / observation", key="opp_source")
-        opp_signal = st.text_area("Demand signal", placeholder="Why do people want this?", key="opp_signal", height=80)
-        if st.button("Add to Pipeline", key="add_opp_btn"):
+    # Add intel
+    st.markdown("**➕ Dump Intel**")
+    with st.expander("New intel entry", expanded=True):
+        cat = st.selectbox("Category", list(CATEGORIES.keys()), format_func=lambda x: CATEGORIES[x], key="intel_cat")
+        contributor = st.selectbox("From", CONTRIBUTORS, key="intel_contrib")
+        content = st.text_area("What do you know?", height=80, key="intel_content")
+        source = st.text_input("Source (optional)", placeholder="Reddit / HN / search / observation", key="intel_source")
+        tags_raw = st.text_input("Tags (comma-separated)", placeholder="gpt-4, automation, small-business", key="intel_tags")
+        if st.button("Dump into Brain", key="dump_intel"):
+            if content.strip():
+                tags = [t.strip() for t in tags_raw.split(",") if t.strip()]
+                entry = {
+                    "id": str(uuid.uuid4()),
+                    "category": cat,
+                    "content": content.strip(),
+                    "contributor": contributor,
+                    "source": source.strip(),
+                    "tags": tags,
+                    "created": now_awst().isoformat(),
+                    "updated": now_awst().isoformat(),
+                    "linked_opportunity_id": None,
+                    "used_in_build": None
+                }
+                data["intel"][cat].append(entry)
+                save_json(WAR_ROOM_JSON, data)
+                st.success("Dumped! 🧠")
+                st.rerun()
+
+    st.divider()
+
+    # Quick add opportunity
+    st.markdown("**💡 Add Opportunity**")
+    with st.expander("New opportunity", expanded=False):
+        opp_name = st.text_input("Opportunity name", key="opp_name")
+        opp_signal = st.text_area("Why this matters", height=60, key="opp_signal")
+        if st.button("Add Opportunity", key="add_opp_btn"):
             if opp_name:
-                opps = load_pipeline()["opportunities"]
-                opps.append({
+                opp = {
                     "id": str(uuid.uuid4()),
                     "name": opp_name,
-                    "source": opp_source,
                     "demand_signal": opp_signal,
+                    "contributor": "Yuki",
+                    "source": "manual",
                     "scored": False,
                     "score": None,
-                    "created": datetime.now(AWST_TZ).isoformat()
-                })
-                save_pipeline({**load_pipeline(), "opportunities": opps})
+                    "created": now_awst().isoformat()
+                }
+                data["opportunities"].append(opp)
+                save_json(WAR_ROOM_JSON, data)
                 st.success("Added!")
                 st.rerun()
-            else:
-                st.warning("Name required")
 
     st.divider()
 
-    # Add project
-    st.markdown("**🆕 Quick Add Project**")
-    with st.expander("New project", expanded=False):
-        proj_name = st.text_input("Project name", key="proj_quick_name")
-        proj_desc = st.text_area("Description", key="proj_quick_desc", height=60)
-        if st.button("Create Project", key="add_proj_btn"):
-            if proj_name:
-                projs = load_pipeline()["projects"]
-                projs.append({
-                    "id": str(uuid.uuid4()),
-                    "name": proj_name,
-                    "description": proj_desc,
-                    "stage": "new",
-                    "created": datetime.now(AWST_TZ).isoformat(),
-                    "updated": datetime.now(AWST_TZ).isoformat(),
-                    "score": None,
-                    "research_notes": "",
-                    "build_log": [],
-                    "deployed_url": None,
-                    "shipped_at": None,
-                    "decision": None
-                })
-                save_pipeline({**load_pipeline(), "projects": projs})
-                st.success("Project created!")
-                st.rerun()
-
-    st.divider()
-
-    # Actions
-    st.markdown("**🔄 Refresh**")
-    if st.button("Refresh All", use_container_width=True):
+    # Refresh
+    if st.button("🔄 Refresh", use_container_width=True):
         st.rerun()
-
-    st.divider()
-    if st.button("📋 Open Vault Pipeline", use_container_width=True):
-        st.markdown(f"`{VAULT_PIPELINE}`")
 
     st.caption(f"Last refresh: {now_awst().strftime('%I:%M %p AWST')}")
 
+# ─── Main Tabs ─────────────────────────────────────────────────────────────────
 
-# ─── Main Dashboard ───────────────────────────────────────────────────────────
+st.markdown("### 🧠 The AI War Room")
 
-st.markdown("### 🎛️ Mission Control — Build Factory")
-
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "📊 Pipeline Board",
-    "🔍 Opportunities",
+tabs = st.tabs([
+    "🧠 AI Intel Brain",
+    "📊 Opportunity Scanner",
+    "🔨 Pipeline Board",
     "🔨 Active Builds",
     "✅ Shipped",
     "📜 Activity"
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TAB 1: PIPELINE BOARD
+# TAB 0: AI INTEL BRAIN
 # ═══════════════════════════════════════════════════════════════════════════════
 
-with tab1:
-    st.markdown("#### Project Pipeline")
+with tabs[0]:
+    st.markdown("#### 🧠 AI Intel Brain")
+    st.caption("All intel flows through here — Yuki, Dusk, and Mewy all contribute and retrieve.")
 
-    cols = ["new", "scored", "building", "deployed", "shipped", "killed"]
-    headers = ["🆕 New", "📊 Scored", "🔨 Building", "🚀 Deployed", "✅ Shipped", "🗑️ Killed"]
+    # Category filter
+    filter_cat = st.selectbox("Filter by category", ["ALL"] + list(CATEGORIES.keys()), format_func=lambda x: CATEGORIES[x] if x != "ALL" else "All Categories", key="filter_cat")
 
-    cols_display = st.columns(6)
-
-    for i, (col_id, col_name, col_el) in enumerate(zip(cols, headers, cols_display)):
-        with col_el:
-            col_projs = [p for p in projects if p["stage"] == col_id]
-            border_color = STAGE_COLORS.get(col_id, "#30363d")
-            st.markdown(f"**{col_name}** ({len(col_projs)})")
-
-            for p in sorted(col_projs, key=lambda x: x.get("updated", ""), reverse=True):
-                score_str = f"**{p['score']['total']}/40**" if p.get("score") else "unscored"
-                score_emoji = score_color(p["score"]["total"]) if p.get("score") else "⚪"
-                age = ts_ago(p.get("updated", p.get("created", "")))
-
-                with st.container():
-                    st.markdown(f"""
-                    <div class="kanban-card" style="border-left-color: {border_color};">
-                    <div style="font-weight:700; color:#e6edf3">{p['name']}</div>
-                    <div style="font-size:11px; color:#8b949e; margin: 4px 0">{p.get('description','')[:60]}</div>
-                    <div style="font-size:11px; color:#8b949e">{score_emoji} {score_str} · {age}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-
-                    # Stage transition buttons
-                    if col_id == "new":
-                        if st.button(f"📊 Score", key=f"score_{p['id']}", use_container_width=True):
-                            projs = load_pipeline()["projects"]
-                            for proj in projs:
-                                if proj["id"] == p["id"]:
-                                    proj["stage"] = "scored"
-                                    proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                            save_pipeline({**load_pipeline(), "projects": projs})
-                            st.rerun()
-                    elif col_id == "scored":
-                        if p.get("score") and p["score"]["total"] >= 18:
-                            if st.button(f"🔨 Build", key=f"build_{p['id']}", use_container_width=True):
-                                projs = load_pipeline()["projects"]
-                                for proj in projs:
-                                    if proj["id"] == p["id"]:
-                                        proj["stage"] = "building"
-                                        proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                                        proj["build_log"].append(f"[{now_awst().strftime('%I:%M %p')}] Build started")
-                                save_pipeline({**load_pipeline(), "projects": projs})
-                                st.rerun()
-                        if st.button(f"🗑️ Kill", key=f"kill_{p['id']}", use_container_width=True):
-                            projs = load_pipeline()["projects"]
-                            for proj in projs:
-                                if proj["id"] == p["id"]:
-                                    proj["stage"] = "killed"
-                                    proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                            save_pipeline({**load_pipeline(), "projects": projs})
-                            st.rerun()
-                    elif col_id == "building":
-                        if st.button(f"🚀 Deploy", key=f"deploy_{p['id']}", use_container_width=True):
-                            projs = load_pipeline()["projects"]
-                            for proj in projs:
-                                if proj["id"] == p["id"]:
-                                    proj["stage"] = "deployed"
-                                    proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                                    proj["build_log"].append(f"[{now_awst().strftime('%I:%M %p')}] Deployed")
-                            save_pipeline({**load_pipeline(), "projects": projs})
-                            st.rerun()
-                    elif col_id == "deployed":
-                        c1, c2 = st.columns(2)
-                        with c1:
-                            if st.button(f"✅ Ship", key=f"ship_{p['id']}", use_container_width=True):
-                                projs = load_pipeline()["projects"]
-                                for proj in projs:
-                                    if proj["id"] == p["id"]:
-                                        proj["stage"] = "shipped"
-                                        proj["shipped_at"] = datetime.now(AWST_TZ).isoformat()
-                                        proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                                        proj["build_log"].append(f"[{now_awst().strftime('%I:%M %p')}] Shipped!")
-                                save_pipeline({**load_pipeline(), "projects": projs})
-                                st.rerun()
-                        with c2:
-                            if st.button(f"🔁 Iterate", key=f"iter_{p['id']}", use_container_width=True):
-                                projs = load_pipeline()["projects"]
-                                for proj in projs:
-                                    if proj["id"] == p["id"]:
-                                        proj["stage"] = "iterate"
-                                        proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                                save_pipeline({**load_pipeline(), "projects": projs})
-                                st.rerun()
-                    elif col_id == "iterate":
-                        if st.button(f"🔨 Back to Build", key=f"backbuild_{p['id']}", use_container_width=True):
-                            projs = load_pipeline()["projects"]
-                            for proj in projs:
-                                if proj["id"] == p["id"]:
-                                    proj["stage"] = "building"
-                                    proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                            save_pipeline({**load_pipeline(), "projects": projs})
-                            st.rerun()
-
-                    st.divider()
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# TAB 2: OPPORTUNITIES
-# ═══════════════════════════════════════════════════════════════════════════════
-
-with tab2:
-    st.markdown("#### 🔍 Opportunity Scanner")
-
-    # Unscored opportunities
-    st.markdown(f"**Unscored ({len(unscored_opps)})**")
-    if unscored_opps:
-        for opp in sorted(unscored_opps, key=lambda x: x.get("created", ""), reverse=True):
-            with st.container():
-                col1, col2 = st.columns([4, 1])
-                with col1:
-                    st.markdown(f"""
-                    <div class="opp-card">
-                    <div style="font-weight:700; color:#e6edf3">{opp['name']}</div>
-                    <div style="font-size:11px; color:#8b949e; margin: 4px 0">Source: {opp.get('source','unknown')} · {ts_ago(opp.get('created',''))}</div>
-                    <div style="font-size:12px; color:#c9d1d9">{opp.get('demand_signal','')}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                with col2:
-                    st.markdown("Score it:")
-                    demand = st.number_input("Demand", 1, 10, 5, key=f"d_{opp['id']}")
-                    feasible = st.number_input("Feasible", 1, 10, 5, key=f"f_{opp['id']}")
-                    margin = st.number_input("Margin", 1, 10, 5, key=f"m_{opp['id']}")
-                    time_build = st.number_input("Time (1=慢, 10=快)", 1, 10, 5, key=f"t_{opp['id']}")
-
-                    total = demand + feasible + margin + (10 - time_build)
-                    st.markdown(f"**Total: {score_color(total)} {total}/40**")
-
-                    if st.button(f"Save Score → Project", key=f"score_opp_{opp['id']}", use_container_width=True):
-                        opps = load_pipeline()["opportunities"]
-                        projs = load_pipeline()["projects"]
-                        for o in opps:
-                            if o["id"] == opp["id"]:
-                                o["scored"] = True
-                                o["score"] = {"demand": demand, "feasibility": feasible, "margin": margin, "time_to_build": time_build, "total": total}
-                        projs.append({
-                            "id": str(uuid.uuid4()),
-                            "name": opp["name"],
-                            "description": opp.get("demand_signal", ""),
-                            "stage": "scored",
-                            "created": opp.get("created", datetime.now(AWST_TZ).isoformat()),
-                            "updated": datetime.now(AWST_TZ).isoformat(),
-                            "score": {"demand": demand, "feasibility": feasible, "margin": margin, "time_to_build": time_build, "total": total},
-                            "research_notes": f"Source: {opp.get('source','')}\nDemand signal: {opp.get('demand_signal','')}",
-                            "build_log": [],
-                            "deployed_url": None,
-                            "shipped_at": None,
-                            "decision": None
-                        })
-                        save_pipeline({**load_pipeline(), "opportunities": opps, "projects": projs})
-                        st.rerun()
-    else:
-        st.info("No unscored opportunities — add one via the sidebar")
+    # Search
+    search_q = st.text_input("🔍 Search intel", placeholder="Search across all intel...", key="intel_search")
 
     st.divider()
 
-    # Scored opportunities
-    st.markdown(f"**Scored Opportunities ({len(scored_opps)})**")
-    if scored_opps:
-        scored_sorted = sorted(scored_opps, key=lambda x: x.get("score", {}).get("total", 0), reverse=True)
-        for opp in scored_sorted:
-            s = opp.get("score", {})
-            total = s.get("total", 0)
+    # Show intel
+    shown = 0
+    for cat_key, cat_name in CATEGORIES.items():
+        entries = intel_categories.get(cat_key, [])
+
+        # Filter
+        if filter_cat != "ALL" and cat_key != filter_cat:
+            continue
+
+        # Search
+        if search_q:
+            entries = [e for e in entries if search_q.lower() in e.get("content","").lower() or search_q.lower() in " ".join(e.get("tags",[])).lower()]
+
+        if not entries:
+            continue
+
+        st.markdown(f"**{cat_name}** ({len(entries)} entries)")
+        for entry in sorted(entries, key=lambda x: x.get("created",""), reverse=True):
+            tags_html = " ".join([f'<span class="tag">{t}</span>' for t in entry.get("tags",[])])
             st.markdown(f"""
-            <div class="opp-card" style="border-left: 4px solid {STAGE_COLORS.get('scored','#58a6ff') if total >= 18 else '#f85149' if total < 14 else '#d29922'}">
-            <div style="font-weight:700; color:#e6edf3">{score_color(total)} {opp['name']} — {total}/40</div>
-            <div style="font-size:11px; color:#8b949e; margin: 4px 0">
-                Demand: {s.get('demand','-')}/10 · Feasible: {s.get('feasibility','-')}/10 · Margin: {s.get('margin','-')}/10 · Time: {s.get('time_to_build','-')}/10
-            </div>
-            <div style="font-size:12px; color:#c9d1d9">{opp.get('demand_signal','')}</div>
+            <div class="intel-card">
+                <div class="intel-meta">
+                    <span style="color:#58a6ff">{entry.get('contributor','?')}</span>
+                    · {ts_ago(entry.get('created',''))}
+                    · Source: {entry.get('source','unknown')}
+                </div>
+                <div class="intel-content">{entry.get('content','')}</div>
+                <div>{tags_html}</div>
             </div>
             """, unsafe_allow_html=True)
+            shown += 1
 
-            col1, col2 = st.columns(2)
+            # Quick action: turn into opportunity
+            col1, col2 = st.columns([1,1])
             with col1:
-                if total >= 18 and st.button(f"🔨 Start Build →", key=f"build_opp_{opp['id']}", use_container_width=True):
-                    projs = load_pipeline()["projects"]
-                    projs.append({
+                if st.button(f"💡 Score as Opportunity", key=f"score_{entry['id']}"):
+                    opp = {
                         "id": str(uuid.uuid4()),
-                        "name": opp["name"],
-                        "description": opp.get("demand_signal", ""),
-                        "stage": "building",
-                        "created": datetime.now(AWST_TZ).isoformat(),
-                        "updated": datetime.now(AWST_TZ).isoformat(),
-                        "score": s,
-                        "research_notes": f"Source: {opp.get('source','')}\nDemand signal: {opp.get('demand_signal','')}",
-                        "build_log": [f"[{now_awst().strftime('%I:%M %p')}] Build queued from scored opp"],
-                        "deployed_url": None,
-                        "shipped_at": None,
-                        "decision": None
-                    })
-                    # Remove from opportunities
-                    opps = [o for o in load_pipeline()["opportunities"] if o["id"] != opp["id"]]
-                    save_pipeline({**load_pipeline(), "projects": projs, "opportunities": opps})
+                        "name": entry.get("content","")[:80],
+                        "demand_signal": entry.get("content",""),
+                        "contributor": entry.get("contributor","Yuki"),
+                        "source": f"intel: {entry.get('category','unknown')}",
+                        "scored": False,
+                        "score": None,
+                        "created": now_awst().isoformat(),
+                        "linked_intel_id": entry["id"]
+                    }
+                    data["opportunities"].append(opp)
+                    save_json(WAR_ROOM_JSON, data)
+                    st.success("Added to opportunities!")
                     st.rerun()
             with col2:
-                if st.button(f"🗑️ Discard", key=f"kill_opp_{opp['id']}", use_container_width=True):
-                    opps = [o for o in load_pipeline()["opportunities"] if o["id"] != opp["id"]]
-                    save_pipeline({**load_pipeline(), "opportunities": opps})
+                if st.button(f"🗑️", key=f"del_{entry['id']}"):
+                    data["intel"][cat_key] = [e for e in data["intel"][cat_key] if e["id"] != entry["id"]]
+                    save_json(WAR_ROOM_JSON, data)
                     st.rerun()
+            st.divider()
+
+    if shown == 0:
+        st.info("No intel yet — dump some via the sidebar!")
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB 1: OPPORTUNITY SCANNER
+# ═══════════════════════════════════════════════════════════════════════════════
+
+with tabs[1]:
+    st.markdown("#### 📊 Opportunity Scanner")
+    st.caption("Score each opportunity. ≥18/40 → pipeline. ≥24/40 → auto-build.")
+
+    unscored = [o for o in all_opportunities if not o.get("scored")]
+    scored = [o for o in all_opportunities if o.get("scored")]
+
+    st.markdown(f"**Unscored ({len(unscored)})**")
+    if unscored:
+        for opp in unscored:
+            with st.container():
+                st.markdown(f"""
+                <div class="opp-card score-low">
+                <div style="font-weight:700; color:#e6edf3">{opp.get('name','?')}</div>
+                <div style="font-size:12px; color:#8b949e; margin: 4px 0">{opp.get('demand_signal','')[:120]}</div>
+                <div style="font-size:11px; color:#8b949e">From: {opp.get('contributor','?')} · {ts_ago(opp.get('created',''))} · {opp.get('source','')}</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+                c1, c2, c3, c4 = st.columns(4)
+                with c1:
+                    demand = st.number_input("Demand", 1, 10, 5, key=f"d_{opp['id']}")
+                with c2:
+                    feasible = st.number_input("Feasible", 1, 10, 5, key=f"f_{opp['id']}")
+                with c3:
+                    margin = st.number_input("Margin", 1, 10, 5, key=f"m_{opp['id']}")
+                with c4:
+                    time_build = st.number_input("Speed", 1, 10, 5, key=f"t_{opp['id']}")
+
+                total, color = score_opp(demand, feasible, margin, time_build)
+                st.markdown(f"**Score: {color} {total}/40**")
+
+                col_a, col_b = st.columns(2)
+                with col_a:
+                    if st.button(f"✅ Save Score", key=f"save_{opp['id']}", use_container_width=True):
+                        opp["scored"] = True
+                        opp["score"] = {"demand": demand, "feasibility": feasible, "margin": margin, "time_to_build": time_build, "total": total}
+                        # Add to pipeline if score >= 18
+                        if total >= 18:
+                            proj = {
+                                "id": str(uuid.uuid4()),
+                                "name": opp.get("name",""),
+                                "description": opp.get("demand_signal",""),
+                                "stage": "scored",
+                                "created": opp.get("created", now_awst().isoformat()),
+                                "updated": now_awst().isoformat(),
+                                "score": opp["score"],
+                                "research_notes": f"Source: {opp.get('source','')}",
+                                "build_log": [f"[{now_awst().strftime('%I:%M %p')}] Promoted from scanner (score: {total}/40)"],
+                                "deployed_url": None,
+                                "shipped_at": None,
+                                "decision": None
+                            }
+                            pipeline["projects"].append(proj)
+                        save_json(PIPELINE_JSON, pipeline)
+                        save_json(WAR_ROOM_JSON, data)
+                        st.rerun()
+                with col_b:
+                    if st.button(f"🗑️ Discard", key=f"kill_{opp['id']}", use_container_width=True):
+                        data["opportunities"] = [o for o in data["opportunities"] if o["id"] != opp["id"]]
+                        save_json(WAR_ROOM_JSON, data)
+                        st.rerun()
+                st.divider()
     else:
-        st.info("No scored opportunities yet")
+        st.info("No unscored opportunities")
+
+    st.divider()
+
+    st.markdown(f"**Scored Opportunities ({len(scored)})**")
+    scored_sorted = sorted(scored, key=lambda x: x.get("score",{}).get("total",0), reverse=True)
+    for opp in scored_sorted:
+        s = opp.get("score", {})
+        total = s.get("total", 0)
+        border_class = "score-high" if total >= 24 else ("score-med" if total >= 18 else "score-low")
+        st.markdown(f"""
+        <div class="opp-card {border_class}">
+        <div style="font-weight:700; font-size:15px; color:#e6edf3">{score_opp(s.get('demand',5), s.get('feasibility',5), s.get('margin',5), s.get('time_to_build',5))[1]} {opp.get('name','?')} — {total}/40</div>
+        <div style="font-size:11px; color:#8b949e; margin: 4px 0">
+            Demand: {s.get('demand','-')}/10 · Feasible: {s.get('feasibility','-')}/10 · Margin: {s.get('margin','-')}/10 · Speed: {s.get('time_to_build','-')}/10
+        </div>
+        <div style="font-size:12px; color:#c9d1d9">{opp.get('demand_signal','')[:120]}</div>
+        <div style="font-size:11px; color:#8b949e; margin-top:4px">From: {opp.get('contributor','?')} · {opp.get('source','')}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Quick action buttons
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            if total >= 24 and st.button(f"🔨 BUILD (≥24)", key=f"build_{opp['id']}", use_container_width=True):
+                proj = {
+                    "id": str(uuid.uuid4()),
+                    "name": opp.get("name",""),
+                    "description": opp.get("demand_signal",""),
+                    "stage": "building",
+                    "created": now_awst().isoformat(),
+                    "updated": now_awst().isoformat(),
+                    "score": s,
+                    "research_notes": f"Source: {opp.get('source','')}",
+                    "build_log": [f"[{now_awst().strftime('%I:%M %p')}] HIGH SCORE — AUTO-BUILD TRIGGERED ({total}/40)"],
+                    "deployed_url": None,
+                    "shipped_at": None,
+                    "decision": None
+                }
+                pipeline["projects"].append(proj)
+                save_json(PIPELINE_JSON, pipeline)
+                st.info("Added to pipeline as BUILDING — Claude Code will spawn next cycle")
+                st.rerun()
+        with c2:
+            if 18 <= total < 24 and st.button(f"📊 Score → Pipeline", key=f"promote_{opp['id']}", use_container_width=True):
+                proj = {
+                    "id": str(uuid.uuid4()),
+                    "name": opp.get("name",""),
+                    "description": opp.get("demand_signal",""),
+                    "stage": "scored",
+                    "created": now_awst().isoformat(),
+                    "updated": now_awst().isoformat(),
+                    "score": s,
+                    "research_notes": f"Source: {opp.get('source','')}",
+                    "build_log": [f"[{now_awst().strftime('%I:%M %p')}] Added to pipeline (score: {total}/40)"],
+                    "deployed_url": None,
+                    "shipped_at": None,
+                    "decision": None
+                }
+                pipeline["projects"].append(proj)
+                save_json(PIPELINE_JSON, pipeline)
+                st.rerun()
+        with c3:
+            if st.button(f"🗑️", key=f"del_opp_{opp['id']}", use_container_width=True):
+                data["opportunities"] = [o for o in data["opportunities"] if o["id"] != opp["id"]]
+                save_json(WAR_ROOM_JSON, data)
+                st.rerun()
+        st.divider()
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB 2: PIPELINE BOARD
+# ═══════════════════════════════════════════════════════════════════════════════
+
+with tabs[2]:
+    st.markdown("#### 🔨 Pipeline Board")
+
+    cols = ["new", "scored", "building", "deployed", "shipped", "killed"]
+    headers = ["🆕 New", "📊 Scored", "🔨 Building", "🚀 Deployed", "✅ Shipped", "🗑️ Killed"]
+    colors = ["#6e7681", "#58a6ff", "#d29922", "#a371f7", "#3fb950", "#f85149"]
+
+    cols_display = st.columns(6)
+    for col_id, col_name, col_color, col_el in zip(cols, headers, colors, cols_display):
+        with col_el:
+            col_projs = [p for p in projects if p.get("stage") == col_id]
+            st.markdown(f"**{col_name}** ({len(col_projs)})")
+
+            for p in sorted(col_projs, key=lambda x: x.get("updated",""), reverse=True):
+                score = p.get("score", {})
+                total = score.get("total", 0)
+                score_str = f"{total}/40" if total else "unscored"
+                age = ts_ago(p.get("updated", p.get("created","")))
+
+                st.markdown(f"""
+                <div class="kanban-card" style="border-left-color: {col_color};">
+                <div style="font-weight:700; color:#e6edf3">{p.get('name','')[:35]}</div>
+                <div style="font-size:11px; color:#8b949e; margin: 3px 0">{p.get('description','')[:60]}</div>
+                <div style="font-size:11px; color:#8b949e">Score: {score_str} · {age}</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+                # Stage transition buttons
+                if col_id == "scored" and total >= 18:
+                    if st.button(f"🔨 Build", key=f"build_proj_{p['id']}", use_container_width=True):
+                        projs = pipeline["projects"]
+                        for proj in projs:
+                            if proj["id"] == p["id"]:
+                                proj["stage"] = "building"
+                                proj["updated"] = now_awst().isoformat()
+                                proj["build_log"].append(f"[{now_awst().strftime('%I:%M %p')}] Build started")
+                        save_json(PIPELINE_JSON, pipeline)
+                        st.rerun()
+                elif col_id == "building":
+                    if st.button(f"🚀 Deployed", key=f"deployed_{p['id']}", use_container_width=True):
+                        projs = pipeline["projects"]
+                        for proj in projs:
+                            if proj["id"] == p["id"]:
+                                proj["stage"] = "deployed"
+                                proj["updated"] = now_awst().isoformat()
+                                proj["build_log"].append(f"[{now_awst().strftime('%I:%M %p')}] Marked deployed")
+                        save_json(PIPELINE_JSON, pipeline)
+                        st.rerun()
+                elif col_id == "deployed":
+                    c1, c2 = st.columns(2)
+                    with c1:
+                        if st.button(f"✅ Ship", key=f"ship_proj_{p['id']}", use_container_width=True):
+                            projs = pipeline["projects"]
+                            for proj in projs:
+                                if proj["id"] == p["id"]:
+                                    proj["stage"] = "shipped"
+                                    proj["shipped_at"] = now_awst().isoformat()
+                                    proj["updated"] = now_awst().isoformat()
+                                    proj["build_log"].append(f"[{now_awst().strftime('%I:%M %p')}] SHIPPED!")
+                            save_json(PIPELINE_JSON, pipeline)
+                            st.rerun()
+                    with c2:
+                        if st.button(f"🔁", key=f"iter_proj_{p['id']}", use_container_width=True):
+                            projs = pipeline["projects"]
+                            for proj in projs:
+                                if proj["id"] == p["id"]:
+                                    proj["stage"] = "iterate"
+                                    proj["updated"] = now_awst().isoformat()
+                            save_json(PIPELINE_JSON, pipeline)
+                            st.rerun()
+
+                st.divider()
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 3: ACTIVE BUILDS
 # ═══════════════════════════════════════════════════════════════════════════════
 
-with tab3:
+with tabs[3]:
     st.markdown("#### 🔨 Active Builds")
 
     if building:
         for p in building:
-            border_color = STAGE_COLORS.get("building", "#d29922")
             st.markdown(f"""
-            <div class="kanban-card" style="border-left-color: {border_color};">
-            <div style="font-weight:700; font-size:16px; color:#e6edf3">{p['name']}</div>
-            <div style="font-size:12px; color:#c9d1d9; margin: 6px 0">{p.get('description','')}</div>
-            <div style="font-size:11px; color:#8b949e">Score: {p['score']['total']}/40 · Started: {ts_ago(p.get('updated',''))}</div>
+            <div class="kanban-card" style="border-left-color:#d29922;">
+            <div style="font-weight:700; font-size:16px; color:#e6edf3">{p.get('name','')}</div>
+            <div style="font-size:12px; color:#c9d1d9; margin: 6px 0">{p.get('description','')[:100]}</div>
+            <div style="font-size:11px; color:#8b949e">Score: {p.get('score',{}).get('total','?')}/40 · Started: {ts_ago(p.get('updated',''))}</div>
             </div>
             """, unsafe_allow_html=True)
 
             # Build log
             if p.get("build_log"):
                 with st.expander("📋 Build log"):
-                    for log_line in p.get("build_log", []):
-                        st.text(log_line)
+                    for line in p.get("build_log", []):
+                        st.text(line)
 
-            col1, col2, col3 = st.columns(3)
+            col1, col2 = st.columns(2)
             with col1:
-                if st.button(f"🚀 Mark Deployed", key=f"deployed_btn_{p['id']}", use_container_width=True):
-                    projs = load_pipeline()["projects"]
-                    for proj in projs:
-                        if proj["id"] == p["id"]:
-                            proj["stage"] = "deployed"
-                            proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                            proj["build_log"].append(f"[{now_awst().strftime('%I:%M %p')}] Marked deployed")
-                    save_pipeline({**load_pipeline(), "projects": projs})
-                    st.rerun()
-            with col2:
                 url = st.text_input("Deployed URL", key=f"url_{p['id']}", placeholder="https://...")
-                if st.button("Save URL", key=f"save_url_{p['id']}", use_container_width=True):
-                    if url:
-                        projs = load_pipeline()["projects"]
-                        for proj in projs:
-                            if proj["id"] == p["id"]:
-                                proj["deployed_url"] = url
-                                proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                        save_pipeline({**load_pipeline(), "projects": projs})
-                        st.rerun()
-            with col3:
-                if st.button(f"🗑️ Kill Build", key=f"killbuild_{p['id']}", use_container_width=True):
-                    projs = load_pipeline()["projects"]
+            with col2:
+                if st.button(f"🚀 Mark Deployed", key=f"depbtn_{p['id']}", use_container_width=True):
+                    projs = pipeline["projects"]
                     for proj in projs:
                         if proj["id"] == p["id"]:
-                            proj["stage"] = "killed"
-                            proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                    save_pipeline({**load_pipeline(), "projects": projs})
+                            if url:
+                                proj["deployed_url"] = url
+                            proj["stage"] = "deployed"
+                            proj["updated"] = now_awst().isoformat()
+                            proj["build_log"].append(f"[{now_awst().strftime('%I:%M %p')}] Deployed: {url or 'no URL'}")
+                    save_json(PIPELINE_JSON, pipeline)
                     st.rerun()
             st.divider()
     else:
-        st.info("No active builds")
-
-    # Deployed (needs action)
-    if deployed:
-        st.markdown("#### 🚀 Deployed — Awaiting Review")
-        for p in deployed:
-            border_color = STAGE_COLORS.get("deployed", "#a371f7")
-            st.markdown(f"""
-            <div class="kanban-card" style="border-left-color: {border_color};">
-            <div style="font-weight:700; font-size:16px; color:#e6edf3">{p['name']}</div>
-            <div style="font-size:12px; margin: 4px 0">
-                <a href="{p.get('deployed_url','#')}" target="_blank">{p.get('deployed_url','no URL')}</a>
-            </div>
-            <div style="font-size:11px; color:#8b949e">Deployed: {ts_ago(p.get('updated',''))}</div>
-            </div>
-            """, unsafe_allow_html=True)
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                if st.button(f"✅ APPROVE SHIP", key=f"ship_btn_{p['id']}", use_container_width=True):
-                    projs = load_pipeline()["projects"]
-                    for proj in projs:
-                        if proj["id"] == p["id"]:
-                            proj["stage"] = "shipped"
-                            proj["shipped_at"] = datetime.now(AWST_TZ).isoformat()
-                            proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                            proj["build_log"].append(f"[{now_awst().strftime('%I:%M %p')}] APPROVED SHIPPED")
-                    save_pipeline({**load_pipeline(), "projects": projs})
-                    st.rerun()
-            with c2:
-                if st.button(f"🔁 ITERATE", key=f"iter_btn_{p['id']}", use_container_width=True):
-                    projs = load_pipeline()["projects"]
-                    for proj in projs:
-                        if proj["id"] == p["id"]:
-                            proj["stage"] = "iterate"
-                            proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                    save_pipeline({**load_pipeline(), "projects": projs})
-                    st.rerun()
-            with c3:
-                if st.button(f"🗑️ KILL", key=f"kill_btn_{p['id']}", use_container_width=True):
-                    projs = load_pipeline()["projects"]
-                    for proj in projs:
-                        if proj["id"] == p["id"]:
-                            proj["stage"] = "killed"
-                            proj["updated"] = datetime.now(AWST_TZ).isoformat()
-                    save_pipeline({**load_pipeline(), "projects": projs})
-                    st.rerun()
-            st.divider()
+        st.info("No active builds — score opportunities to fill this")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 4: SHIPPED
 # ═══════════════════════════════════════════════════════════════════════════════
 
-with tab4:
+with tabs[4]:
     st.markdown(f"#### ✅ Shipped ({len(shipped)})")
+
     if shipped:
-        for p in sorted(shipped, key=lambda x: x.get("shipped_at", ""), reverse=True):
-            border_color = STAGE_COLORS.get("shipped", "#3fb950")
+        for p in sorted(shipped, key=lambda x: x.get("shipped_at",""), reverse=True):
             st.markdown(f"""
-            <div class="kanban-card" style="border-left-color: {border_color};">
-            <div style="font-weight:700; font-size:16px; color:#e6edf3">{p['name']}</div>
-            <div style="font-size:12px; color:#c9d1d9; margin: 4px 0">{p.get('description','')}</div>
+            <div class="kanban-card" style="border-left-color:#3fb950;">
+            <div style="font-weight:700; font-size:16px; color:#e6edf3">{p.get('name','')}</div>
+            <div style="font-size:12px; color:#c9d1d9; margin: 4px 0">{p.get('description','')[:100]}</div>
             <div style="font-size:11px; color:#8b949e">
                 Score: {p.get('score',{}).get('total','?')}/40 · Shipped: {ts_ago(p.get('shipped_at',''))}
             </div>
-            <div style="font-size:12px; margin-top: 4px">
-                <a href="{p.get('deployed_url','#')}" target="_blank">{p.get('deployed_url','no link')}</a>
+            <div style="font-size:12px; margin-top:4px">
+                <a href="{p.get('deployed_url','#')}" target="_blank">{p.get('deployed_url','no link yet')}</a>
             </div>
             </div>
             """, unsafe_allow_html=True)
             if p.get("build_log"):
                 with st.expander("📋 Build log"):
-                    for log_line in p.get("build_log", []):
-                        st.text(log_line)
+                    for line in p.get("build_log", []):
+                        st.text(line)
     else:
-        st.info("Nothing shipped yet — build something!")
+        st.info("Nothing shipped yet — score some opportunities and build!")
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TAB 5: ACTIVITY LOG
+# TAB 5: ACTIVITY
 # ═══════════════════════════════════════════════════════════════════════════════
 
-with tab5:
-    st.markdown("#### 📜 Recent Activity")
+with tabs[5]:
+    st.markdown("#### 📜 Activity Log")
 
-    # Build combined log
     all_events = []
 
     for p in projects:
-        all_events.append({
-            "ts": p.get("updated", p.get("created", "")),
-            "type": "project",
-            "msg": f"[{p['stage'].upper()}] {p['name']}",
-            "detail": p.get("description", "")[:80]
-        })
+        all_events.append({"ts": p.get("updated", p.get("created","")), "type": "project", "msg": f"[{p.get('stage','').upper()}] {p.get('name','')}"})
         for log_line in p.get("build_log", []):
-            all_events.append({
-                "ts": "",
-                "type": "log",
-                "msg": log_line,
-                "detail": p["name"]
-            })
+            all_events.append({"ts": p.get("updated",""), "type": "log", "msg": log_line, "detail": p.get("name","")})
 
-    for opp in opportunities:
-        all_events.append({
-            "ts": opp.get("created", ""),
-            "type": "opp",
-            "msg": f"🆕 NEW OPP: {opp['name']}",
-            "detail": opp.get("demand_signal", "")[:80]
-        })
+    for opp in all_opportunities:
+        all_events.append({"ts": opp.get("created",""), "type": "opp", "msg": f"💡 NEW: {opp.get('name','')}"})
+
+    for cat_key, cat_name in CATEGORIES.items():
+        for entry in intel_categories.get(cat_key, []):
+            all_events.append({
+                "ts": entry.get("created",""),
+                "type": "intel",
+                "msg": f"🧠 [{entry.get('contributor','?')}] {entry.get('content','')[:60]}",
+                "detail": entry.get("category","")
+            })
 
     all_events.sort(key=lambda x: x.get("ts") or "", reverse=True)
 
-    type_colors = {"project": "#58a6ff", "log": "#8b949e", "opp": "#d29922"}
-    type_icons = {"project": "📋", "log": "📝", "opp": "🔍"}
-
+    type_colors = {"project": "#58a6ff", "log": "#8b949e", "opp": "#d29922", "intel": "#a371f7"}
     for ev in all_events[:50]:
-        color = type_colors.get(ev["type"], "#8b949e")
-        icon = type_icons.get(ev["type"], "•")
+        color = type_colors.get(ev.get("type",""), "#8b949e")
         st.markdown(f"""
         <div style="border-left: 3px solid {color}; padding: 4px 12px; margin: 4px 0; background: #0d1117; border-radius: 0 4px 4px 0;">
-        {icon} {ev['msg']} <span style="color:#8b949e; font-size:11px">— {ts_ago(ev.get('ts','')) if ev.get('ts') else 'no time'}</span>
-        <div style="font-size:11px; color:#8b949e">{ev.get('detail','')}</div>
+        {ev.get('msg','')} <span style="color:#8b949e; font-size:11px">— {ts_ago(ev.get('ts',''))}</span>
         </div>
         """, unsafe_allow_html=True)
 
-st.caption(f"The AI War Room v1.0 · Pipeline: ~/.openclaw/vault/dawn-vault/YUKI/projects/mission-control/pipeline.json
+st.caption(f"The AI War Room · Vault: {VAULT_BASE}")
