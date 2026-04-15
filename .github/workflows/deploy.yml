@@ -1,0 +1,19 @@
+name: Streamlit Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - uses: streamlit/actions@v3
+        with:
+          appPath: app.py
+          token: ${{ secrets.STREAMLIT_TOKEN }}
