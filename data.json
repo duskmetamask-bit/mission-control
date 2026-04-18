@@ -1157,8 +1157,134 @@
         "affiliate",
         "early-mover"
       ]
+    },
+    {
+      "id": "55",
+      "category": "automation",
+      "name": "AI System Auditor Tool",
+      "description": ". Emmy could build this. Low complexity, high perceived value.",
+      "leverage": "From vault research 2026-04-14. Refine leverage statement.",
+      "source": "vault:daily-research",
+      "sourceName": "MEWY Research",
+      "dateFound": "2026-04-14",
+      "relevance": 3,
+      "tags": [
+        "auto-added"
+      ]
+    },
+    {
+      "id": "56",
+      "category": "automation",
+      "name": "AI Build Review Service (higher tier)",
+      "description": ". Structured review covering: data handling, access control, prompt injection risk, compliance exposure. This is exactly what Connor does manually \u2014 could be templated/partially automated.",
+      "leverage": "From vault research 2026-04-14. Refine leverage statement.",
+      "source": "vault:daily-research",
+      "sourceName": "MEWY Research",
+      "dateFound": "2026-04-14",
+      "relevance": 3,
+      "tags": [
+        "auto-added"
+      ]
+    },
+    {
+      "id": "57",
+      "category": "automation",
+      "name": "Vibe-Coded MVP Rescue",
+      "description": ". Fix it properly, document it, use as case study.",
+      "leverage": "From vault research 2026-04-14. Refine leverage statement.",
+      "source": "vault:daily-research",
+      "sourceName": "MEWY Research",
+      "dateFound": "2026-04-14",
+      "relevance": 3,
+      "tags": [
+        "auto-added"
+      ]
+    },
+    {
+      "id": "58",
+      "category": "automation",
+      "name": "AI Onboarding Checklist",
+      "description": ". Simple checklist tool \u2014 could be a simple Streamlit app or even a Notion template.",
+      "leverage": "From vault research 2026-04-14. Refine leverage statement.",
+      "source": "vault:daily-research",
+      "sourceName": "MEWY Research",
+      "dateFound": "2026-04-14",
+      "relevance": 3,
+      "tags": [
+        "auto-added"
+      ]
+    },
+    {
+      "id": "59",
+      "category": "automation",
+      "name": "AI audit for SMBs",
+      "description": "e",
+      "leverage": "From vault research 2026-04-15. Refine leverage statement.",
+      "source": "vault:daily-research",
+      "sourceName": "MEWY Research",
+      "dateFound": "2026-04-15",
+      "relevance": 3,
+      "tags": [
+        "auto-added"
+      ]
+    },
+    {
+      "id": "60",
+      "category": "automation",
+      "name": "Agent orchestration UI",
+      "description": "s",
+      "leverage": "From vault research 2026-04-15. Refine leverage statement.",
+      "source": "vault:daily-research",
+      "sourceName": "MEWY Research",
+      "dateFound": "2026-04-15",
+      "relevance": 3,
+      "tags": [
+        "auto-added"
+      ]
+    },
+    {
+      "id": "61",
+      "category": "automation",
+      "name": "AI implementation concierge",
+      "description": "n",
+      "leverage": "From vault research 2026-04-15. Refine leverage statement.",
+      "source": "vault:daily-research",
+      "sourceName": "MEWY Research",
+      "dateFound": "2026-04-15",
+      "relevance": 3,
+      "tags": [
+        "auto-added"
+      ]
+    },
+    {
+      "id": "62",
+      "category": "automation",
+      "name": "Lead qualifiers that text back",
+      "description": "y",
+      "leverage": "From vault research 2026-04-15. Refine leverage statement.",
+      "source": "vault:daily-research",
+      "sourceName": "MEWY Research",
+      "dateFound": "2026-04-15",
+      "relevance": 3,
+      "tags": [
+        "auto-added"
+      ]
+    },
+    {
+      "id": "63",
+      "category": "automation",
+      "name": "One-click AI setup for specific niches",
+      "description": "s",
+      "leverage": "From vault research 2026-04-15. Refine leverage statement.",
+      "source": "vault:daily-research",
+      "sourceName": "MEWY Research",
+      "dateFound": "2026-04-15",
+      "relevance": 3,
+      "tags": [
+        "auto-added"
+      ]
     }
   ],
-  "lastUpdated": "2026-04-18T00:00:00Z",
-  "nextScan": "2026-04-19T00:00:00Z"
+  "lastUpdated": "2026-04-18T06:56:12.998136Z",
+  "nextScan": "2026-04-19T06:56:12.998158Z"
 }
