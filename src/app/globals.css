@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 3, 3, 3;
+  --background-end-rgb: 15, 15, 15;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Stage colors */
+.stage-INBOUND { background: #6366f1; }
+.stage-PRE-CALL { background: #8b5cf6; }
+.stage-CALL { background: #ec4899; }
+.stage-AUDIT { background: #f59e0b; }
+.stage-BUILD { background: #10b981; }
+.stage-DONE { background: #059669; }
+
+/* Agent status */
+.status-ACTIVE { background: #22c55e; }
+.status-IDLE { background: #eab308; }
+.status-STUCK { background: #ef4444; }
