@@ -215,7 +215,7 @@ const DEMO_WORKS: CurrentWork[] = [
   },
   {
     id: '3',
-    project_name: 'Mission Control Dashboard',
+    project_name: 'Management Dashboard Dashboard',
     owner: 'claude-code',
     status: 'blocked',
     notes: 'Waiting on Supabase credentials from Dusk',
