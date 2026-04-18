@@ -15,7 +15,7 @@ async function sendDiscordAlert(message: string) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         content: message,
-        username: 'Management Dashboard',
+        username: 'Ops Hub',
       }),
     });
     return res.ok;

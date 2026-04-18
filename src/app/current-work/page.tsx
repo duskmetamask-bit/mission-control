@@ -215,7 +215,7 @@ const DEMO_WORKS: CurrentWork[] = [
   },
   {
     id: '3',
-    project_name: 'Management Dashboard Dashboard',
+    project_name: 'Ops Hub Dashboard',
     owner: 'claude-code',
     status: 'blocked',
     notes: 'Waiting on Supabase credentials from Dusk',
